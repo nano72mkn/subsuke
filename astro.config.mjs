@@ -1,6 +1,6 @@
-import node from '@astrojs/node';
 import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
+import vercel from '@astrojs/vercel/serverless';
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
@@ -8,7 +8,5 @@ export default defineConfig({
     applyBaseStyles: false,
   })],
   output: 'server',
-  adapter: node({
-    mode: 'standalone'
-  })
+  adapter: vercel()
 });
