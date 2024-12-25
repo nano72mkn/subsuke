@@ -10,10 +10,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { addMonths, addYears, format, isBefore, isSameMonth, startOfMonth } from 'date-fns';
 import { ja } from 'date-fns/locale';
 import { Plus, Trash2 } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const SubscriptionManager = () => {
-  const [subscriptions, setSubscriptions] = useState([
+  const defaultSubscriptions = [
     { 
       id: 1, 
       name: "Netflix", 
@@ -32,12 +32,35 @@ const SubscriptionManager = () => {
       paymentDate: 20,
       startDate: new Date('2024-03-20')
     }
-  ]);
+  ];
+
+  const [subscriptions, setSubscriptions] = useState([]);
+
+  // ローカルストレージからデータを読み込む
+  useEffect(() => {
+    const savedSubscriptions = localStorage.getItem('subscriptions');
+    if (savedSubscriptions) {
+      const parsedSubscriptions = JSON.parse(savedSubscriptions).map(sub => ({
+        ...sub,
+        startDate: new Date(sub.startDate)
+      }));
+      setSubscriptions(parsedSubscriptions);
+    } else {
+      setSubscriptions(defaultSubscriptions);
+      localStorage.setItem('subscriptions', JSON.stringify(defaultSubscriptions));
+    }
+  }, []);
+
+  // subscriptionsの更新時にローカルストレージに保存
+  const updateSubscriptions = (newSubscriptions) => {
+    setSubscriptions(newSubscriptions);
+    localStorage.setItem('subscriptions', JSON.stringify(newSubscriptions));
+  };
 
   const [isOpen, setIsOpen] = useState(false);
   const [newSub, setNewSub] = useState({
     name: "",
-    price: "",
+    price: 0,
     cycle: "monthly",
     category: "その他",
     paymentDate: 1,
@@ -78,14 +101,14 @@ const SubscriptionManager = () => {
 
   const addSubscription = () => {
     if (newSub.name && newSub.price) {
-      setSubscriptions([...subscriptions, {
+      const newSubscriptions = [...subscriptions, {
         id: subscriptions.length + 1,
-        ...newSub,
-        price: parseInt(newSub.price)
-      }]);
+        ...newSub
+      }];
+      updateSubscriptions(newSubscriptions);
       setNewSub({
         name: "",
-        price: "",
+        price: 0,
         cycle: "monthly",
         category: "その他",
         paymentDate: 1,
@@ -96,7 +119,8 @@ const SubscriptionManager = () => {
   };
 
   const deleteSubscription = (id) => {
-    setSubscriptions(subscriptions.filter(sub => sub.id !== id));
+    const newSubscriptions = subscriptions.filter(sub => sub.id !== id);
+    updateSubscriptions(newSubscriptions);
   };
 
   const thisMonth = startOfMonth(new Date());
@@ -200,7 +224,7 @@ const SubscriptionManager = () => {
                         id="price"
                         type="number"
                         value={newSub.price}
-                        onChange={(e) => setNewSub({ ...newSub, price: e.target.value })}
+                        onChange={(e) => setNewSub({ ...newSub, price: parseInt(e.target.value) })}
                       />
                     </div>
                     <div>
@@ -255,7 +279,7 @@ const SubscriptionManager = () => {
                         <Calendar
                           mode="single"
                           selected={newSub.startDate}
-                          onSelect={(date) => setNewSub({ ...newSub, startDate: date })}
+                          onSelect={(date) => date && setNewSub({ ...newSub, startDate: date })}
                           className="rounded-md border"
                         />
                       </div>
