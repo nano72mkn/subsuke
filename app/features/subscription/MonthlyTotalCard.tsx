@@ -23,7 +23,7 @@ export function MonthlyTotalCard({ calculateMonthlyTotals, formatAmount, selecte
               <Tooltip
                 content={({ payload, active }) => {
                   if (active && payload && payload.length) {
-                    const data = payload[0].payload;
+                    const data: CalculateMonthlyTotal = payload[0].payload;
                     return (
                       <div className="bg-white p-4 rounded shadow-lg border">
                         <p className="font-bold mb-2">{data.month}の支払い</p>
