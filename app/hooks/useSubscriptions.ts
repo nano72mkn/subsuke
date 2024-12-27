@@ -1,9 +1,12 @@
+// app/hooks/useSubscriptions.ts
 import { useEffect, useState } from 'react';
 
 export type Subscription = {
   id: string;
   name: string;
   amount: number;
+  currency: 'JPY' | 'USD';
+  billingCycle: 'monthly' | 'yearly';
   category: string;
   nextPaymentDate: string;
 };
