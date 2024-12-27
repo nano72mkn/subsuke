@@ -1,5 +1,5 @@
 import type { LoaderFunction } from "@remix-run/node";
-import { json, Link, useLoaderData } from "@remix-run/react";
+import { data, Link, useLoaderData } from "@remix-run/react";
 import { PlusCircle, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
@@ -10,8 +10,18 @@ import { useSubscriptions } from "~/hooks/useSubscriptions";
 
 export const loader: LoaderFunction = async () => {
   const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
-  const data = await response.json();
-  return json({ exchangeRate: data.rates.JPY });
+  const jsonData = await response.json();
+  return data({ exchangeRate: jsonData.rates.JPY });
+};
+
+type CalculateMonthlyTotal = {
+  month: string;
+  total: number;
+  subscriptions: Array<{
+    name: string;
+    amount: number;
+    isYearly: boolean;
+  }>
 };
 
 export default function Index() {
@@ -19,11 +29,16 @@ export default function Index() {
   const [selectedCurrency, setSelectedCurrency] = useState<'JPY' | 'USD'>('JPY');
   const { exchangeRate } = useLoaderData<typeof loader>();
 
-  const calculateMonthlyTotals = () => {
+  const calculateMonthlyTotals = (): CalculateMonthlyTotal[] => {
     const months = Array.from({ length: 12 }, (_, i) => {
       return {
         month: new Date(2024, i, 1).toLocaleString('ja-JP', { month: 'short' }),
-        total: 0
+        total: 0,
+        subscriptions: [] as Array<{    // 追加
+          name: string;
+          amount: number;
+          isYearly: boolean;
+        }>
       };
     });
 
@@ -33,10 +48,22 @@ export default function Index() {
         (selectedCurrency === 'JPY' ? sub.amount * exchangeRate : sub.amount / exchangeRate);
 
       if (sub.billingCycle === 'monthly') {
-        months.forEach(m => m.total += amount);
+        months.forEach(m => {
+          m.total += amount;
+          m.subscriptions.push({
+            name: sub.name,
+            amount: amount,
+            isYearly: false
+          });
+        });
       } else {
         const paymentMonth = new Date(sub.nextPaymentDate).getMonth();
         months[paymentMonth].total += amount;
+        months[paymentMonth].subscriptions.push({  // 追加
+          name: sub.name,
+          amount: amount,
+          isYearly: true
+        });
       }
     });
 
@@ -126,8 +153,35 @@ export default function Index() {
                 <BarChart data={calculateMonthlyTotals()}>
                   <XAxis dataKey="month" />
                   <YAxis />
-                  <Tooltip 
-                    formatter={(value: number) => formatAmount(value, selectedCurrency)}
+                  <Tooltip
+                    content={({ payload, active }) => {
+                      if (active && payload && payload.length) {
+                        const data: CalculateMonthlyTotal = payload[0].payload;
+                        return (
+                          <div className="bg-white p-4 rounded shadow-lg border">
+                            <p className="font-bold mb-2">{data.month}の支払い</p>
+                            <div className="space-y-1">
+                              {data.subscriptions.map((sub, index) => (
+                                <div key={index} className="flex justify-between">
+                                  <span className="mr-4">
+                                    {sub.name}
+                                    {sub.isYearly && ' (年払い)'}
+                                  </span>
+                                  <span className="font-medium">
+                                    {formatAmount(sub.amount, selectedCurrency)}
+                                  </span>
+                                </div>
+                              ))}
+                              <div className="border-t mt-2 pt-2 font-bold flex justify-between">
+                                <span>合計</span>
+                                <span>{formatAmount(data.total, selectedCurrency)}</span>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      }
+                      return null;
+                    }}
                   />
                   <Bar 
                     dataKey="total" 
