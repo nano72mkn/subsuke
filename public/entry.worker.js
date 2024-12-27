@@ -71,6 +71,7 @@ const route2 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProper
   default: worker_runtime_default
 }, Symbol.toStringTag, { value: "Module" }));
 const assets = [
+  "/entry.worker.js",
   "/favicon.ico",
   "/logo-dark.png",
   "/logo-light.png"
