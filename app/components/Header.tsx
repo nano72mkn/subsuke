@@ -31,6 +31,7 @@ export const Header = () => {
       </NavLink>
       <Modal
         title="サブスクを追加"
+        description="新しいサブスクリプションを追加します。"
         trigger={
           <Button>
             <PlusCircle className="mr-2 h-4 w-4" />

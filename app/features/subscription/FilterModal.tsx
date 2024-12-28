@@ -35,6 +35,7 @@ export const FilterModal: FC<Props> = ({
   return (
     <Modal
       title="フィルター"
+      description="サブスクリプションをフィルタリングします"
       trigger={<Button variant="outline"><SlidersHorizontal />フィルター</Button>}
       footer={<Button type="button" variant="ghost" onClick={clearFilters}>クリア</Button>}
     >
