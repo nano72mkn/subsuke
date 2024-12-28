@@ -27,7 +27,6 @@ export const AddForm: FC<Props> = ({ onSubmitSuccess }) => {
       category: formData.get("category") as string,
       nextPaymentDate: formData.get("nextPaymentDate") as string
     });
-
     onSubmitSuccess();
   };
 

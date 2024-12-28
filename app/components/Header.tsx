@@ -38,7 +38,9 @@ export const Header = () => {
           </Button>
         }
       >
-        {({ onClose }) => <AddForm onSubmitSuccess={onClose} />}
+        {({ onClose }) => <AddForm onSubmitSuccess={() => {
+          onClose();
+        }} />}
       </Modal>
     </div>
   </div>

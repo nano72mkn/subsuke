@@ -1,5 +1,4 @@
-// app/hooks/useSubscriptions.ts
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useSyncExternalStore } from 'react';
 import type { BillingCycle, Currency } from '~/types';
 
 export type Subscription = {
@@ -12,13 +11,26 @@ export type Subscription = {
   nextPaymentDate: string;
 };
 
+const subscribe = (callback: () => void) => {
+  window.addEventListener("storage", callback);
+  return () => {
+    window.removeEventListener("storage", callback);
+  };
+};
+
 export function useSubscriptions() {
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
 
+  const subscriptionsString = useSyncExternalStore(
+    subscribe,
+    () => localStorage.getItem('subscriptions'),
+    () => "",
+  );
+
   useEffect(() => {
-    const stored = localStorage.getItem('subscriptions');
-    if (stored) setSubscriptions(JSON.parse(stored));
-  }, []);
+    if (!subscriptionsString) return;
+    setSubscriptions(JSON.parse(subscriptionsString));
+  }, [subscriptionsString]);
 
   const addSubscription = (subscription: Omit<Subscription, 'id'>) => {
     const newSubscription = {
@@ -26,14 +38,14 @@ export function useSubscriptions() {
       id: crypto.randomUUID()
     };
     const updated = [...subscriptions, newSubscription];
-    setSubscriptions(updated);
     localStorage.setItem('subscriptions', JSON.stringify(updated));
+    window.dispatchEvent(new Event("storage"));
   };
 
   const deleteSubscription = (id: string) => {
     const updated = subscriptions.filter(sub => sub.id !== id);
-    setSubscriptions(updated);
     localStorage.setItem('subscriptions', JSON.stringify(updated));
+    window.dispatchEvent(new Event("storage"));
   };
 
   return { subscriptions, addSubscription, deleteSubscription };

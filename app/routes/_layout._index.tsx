@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Separator } from "~/components/ui/separator";
 import { type Category } from "~/config/category";
 import { FilterModal } from "~/features/subscription/FilterModal";
@@ -11,13 +11,13 @@ export default function Index() {
   const [filterCycle, setFilterCycle] = useState<'monthly' | 'yearly' | 'all'>('all');
   const [filterCategory, setFilterCategory] = useState<Category | 'all'>('all');
 
-
-  const filteredSubscriptions = subscriptions.filter((sub) => {
+  const filteredSubscriptions = useCallback(() => subscriptions.filter((sub) => {
     const matchesSearchQuery = sub.name.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesFilterCycle = filterCycle === 'all' || sub.billingCycle === filterCycle;
     const matchesFilterCategory = filterCategory === 'all' || sub.category === filterCategory;
     return matchesSearchQuery && matchesFilterCycle && matchesFilterCategory;
-  });
+  })
+  , [subscriptions]);
 
   return (
       <div className="space-y-8">
@@ -35,13 +35,13 @@ export default function Index() {
               setFilterCycle={setFilterCycle}
             />
             <span>
-              件数: {filteredSubscriptions.length}
+              件数: {filteredSubscriptions().length}
             </span>
           </div>
         </div>
 
         <div className="grid gap-4">
-          {filteredSubscriptions.map((sub) => (
+          {filteredSubscriptions().map((sub) => (
             <SubscriptionCard 
               key={sub.id} 
               sub={sub} 
