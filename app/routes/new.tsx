@@ -5,6 +5,7 @@ import { Label } from "~/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/components/ui/select";
 import { useSubscriptions } from "~/hooks/useSubscriptions";
+import type { BillingCycle, Currency } from "~/types";
 
 export default function NewSubscription() {
   const { addSubscription } = useSubscriptions();
@@ -17,8 +18,8 @@ export default function NewSubscription() {
     addSubscription({
       name: formData.get("name") as string,
       amount: Number(formData.get("amount")),
-      currency: formData.get("currency") as 'JPY' | 'USD',
-      billingCycle: formData.get("billingCycle") as 'monthly' | 'yearly',
+      currency: formData.get("currency") as Currency,
+      billingCycle: formData.get("billingCycle") as BillingCycle,
       category: formData.get("category") as string,
       nextPaymentDate: formData.get("nextPaymentDate") as string
     });

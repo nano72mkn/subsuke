@@ -1,12 +1,13 @@
 // app/hooks/useSubscriptions.ts
 import { useEffect, useState } from 'react';
+import type { BillingCycle, Currency } from '~/types';
 
 export type Subscription = {
   id: string;
   name: string;
   amount: number;
-  currency: 'JPY' | 'USD';
-  billingCycle: 'monthly' | 'yearly';
+  currency: Currency;
+  billingCycle: BillingCycle;
   category: string;
   nextPaymentDate: string;
 };

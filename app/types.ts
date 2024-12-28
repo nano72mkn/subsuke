@@ -1,4 +1,5 @@
 export type Currency = 'JPY' | 'USD';
+export type BillingCycle = 'monthly' | 'yearly';
 
 export type Subscription = {
   id: string;
@@ -6,7 +7,7 @@ export type Subscription = {
   nextPaymentDate: string;
   amount: number;
   currency: Currency;
-  billingCycle: 'monthly' | 'yearly';
+  billingCycle: BillingCycle;
   category: string;
 };
 
