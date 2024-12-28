@@ -5,6 +5,7 @@ import { useState } from "react";
 import { z } from "zod";
 import { siteConfig } from "~/config/site";
 import { AddForm } from "~/features/subscription/AddForm";
+import { useToast } from "~/hooks/use-toast";
 import { useSubscriptions } from "~/hooks/useSubscriptions";
 import { LogoIcon } from "./icon/LogoIcon";
 import { Modal } from "./Modal";
@@ -25,6 +26,7 @@ const subscriptionSchema = z.array(z.object({
 
 export const Header = () => {
   const { subscriptions } = useSubscriptions();
+  const { toast } = useToast();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const handleDownload = () => {
     const textToDownload = JSON.stringify(subscriptions, null, 2);
@@ -44,8 +46,16 @@ export const Header = () => {
       localStorage.setItem('subscriptions', JSON.stringify(parsedData));
       window.dispatchEvent(new Event("storage"));
       setIsDialogOpen(false);
+      toast({
+        description: 'データをインポートしました',
+        variant: 'default',
+      });
     } catch (error) {
-      alert('Invalid JSON format');
+      toast({
+        title: 'エラー',
+        description: 'データのインポートに失敗しました',
+        variant: 'destructive',
+      });
     }
   };
 
