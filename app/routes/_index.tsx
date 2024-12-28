@@ -2,16 +2,13 @@ import type { LoaderFunction } from "@remix-run/node";
 import { data, useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import { Header } from "~/components/Header";
-import { Input } from "~/components/ui/input";
-import { Label } from "~/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/components/ui/select";
 import { Separator } from "~/components/ui/separator";
-import { billingCycleOptions } from "~/config/billingCycle";
-import { categoryOptions, type Category } from "~/config/category";
+import { type Category } from "~/config/category";
 import { CurrentMonthTotalCard } from "~/features/subscription/CurrentMonthTotalCard";
+import { FilterModal } from "~/features/subscription/FilterModal";
 import { SubscriptionCard } from "~/features/subscription/SubscriptionCard";
 import { useSubscriptions } from "~/hooks/useSubscriptions";
-import { Currency, type BillingCycle } from "~/types";
+import { Currency } from "~/types";
 
 export const loader: LoaderFunction = async () => {
   const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
@@ -26,6 +23,7 @@ export default function Index() {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterCycle, setFilterCycle] = useState<'monthly' | 'yearly' | 'all'>('all');
   const [filterCategory, setFilterCategory] = useState<Category | 'all'>('all');
+
 
   const filteredSubscriptions = subscriptions.filter((sub) => {
     const matchesSearchQuery = sub.name.toLowerCase().includes(searchQuery.toLowerCase());
@@ -87,49 +85,18 @@ export default function Index() {
         
         <div className="flex justify-between items-center">
           <h2 className="text-2xl font-bold">サブスクリプション</h2>
-          <span>
-            登録件数: {filteredSubscriptions.length}
-          </span>
-        </div>
-
-        <div className="flex space-x-4">
-          <div className="grid gap-2">
-            <Label htmlFor="currency">サービス名</Label>
-            <Input type="search" placeholder="例:Netflix" onChange={(e) => setSearchQuery(e.target.value)} />
-          </div>
-
-          <div className="grid gap-2">
-            <Label htmlFor="category">カテゴリ</Label>
-            <Select onValueChange={v => setFilterCategory(v as Category | 'all')}>
-              <SelectTrigger className="w-[180px]" id="billing-cycle">
-                <SelectValue placeholder="カテゴリ" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">すべて</SelectItem>
-                {
-                  categoryOptions.map((categoryOption) => (
-                    <SelectItem key={categoryOption.id} value={categoryOption.id}>{categoryOption.label}</SelectItem>
-                  ))
-                }
-              </SelectContent>
-            </Select>
-          </div>
-          
-          <div className="grid gap-2">
-            <Label htmlFor="billing-cycle">支払間隔</Label>
-            <Select onValueChange={v => setFilterCycle(v as BillingCycle | 'all')}>
-              <SelectTrigger className="w-[180px]" id="billing-cycle">
-                <SelectValue placeholder="支払間隔" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">すべて</SelectItem>
-                {
-                  billingCycleOptions.map((billingCycleOption) => (
-                    <SelectItem key={billingCycleOption.id} value={billingCycleOption.id}>{billingCycleOption.label}</SelectItem>
-                  ))
-                }
-              </SelectContent>
-            </Select>
+          <div className="flex items-center gap-4">
+            <FilterModal
+              searchQuery={searchQuery}
+              filterCategory={filterCategory}
+              filterCycle={filterCycle}
+              setSearchQuery={setSearchQuery}
+              setFilterCategory={setFilterCategory}
+              setFilterCycle={setFilterCycle}
+            />
+            <span>
+              件数: {filteredSubscriptions.length}
+            </span>
           </div>
         </div>
 
@@ -147,3 +114,4 @@ export default function Index() {
     </div>
   );
 }
+
