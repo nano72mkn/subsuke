@@ -1,7 +1,6 @@
 import { Bar, BarChart, CartesianGrid, Tooltip, XAxis } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { ChartContainer, type ChartConfig } from "~/components/ui/chart";
-import { useSubscriptions } from "~/hooks/useSubscriptions";
 import { CalculateMonthlyTotal, Currency } from "~/types";
 
 type MonthlyTotalCardProps = {
@@ -18,7 +17,6 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function MonthlyTotalCard({ calculateMonthlyTotals, formatAmount, selectedCurrency }: MonthlyTotalCardProps) {
-  const { subscriptions } = useSubscriptions();
   const calculateMonthlyTotalsData = calculateMonthlyTotals();
 
   return (

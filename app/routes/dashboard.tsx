@@ -2,11 +2,10 @@ import type { LoaderFunction } from "@remix-run/node";
 import { data, useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import { Header } from "~/components/Header";
-import { Separator } from "~/components/ui/separator";
 import { CurrentMonthTotalCard } from "~/features/subscription/CurrentMonthTotalCard";
-import { SubscriptionCard } from "~/features/subscription/SubscriptionCard";
+import { MonthlyTotalCard } from "~/features/subscription/MonthlyTotalCard";
 import { useSubscriptions } from "~/hooks/useSubscriptions";
-import { Currency } from "~/types";
+import { CalculateMonthlyTotal, Currency } from "~/types";
 
 export const loader: LoaderFunction = async () => {
   const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
@@ -18,6 +17,47 @@ export default function Index() {
   const { subscriptions, deleteSubscription } = useSubscriptions();
   const [selectedCurrency, setSelectedCurrency] = useState<Currency>('JPY');
   const { exchangeRate } = useLoaderData<typeof loader>();
+
+  const calculateMonthlyTotals = (): CalculateMonthlyTotal[] => {
+    const months = Array.from({ length: 12 }, (_, i) => {
+      return {
+        month: new Date(2024, i, 1).toLocaleString('ja-JP', { month: 'short' }),
+        total: 0,
+        subscriptions: [] as Array<{    // 追加
+          name: string;
+          amount: number;
+          isYearly: boolean;
+        }>
+      };
+    });
+
+    subscriptions.forEach(sub => {
+      const amount = sub.currency === selectedCurrency ? 
+        sub.amount : 
+        (selectedCurrency === 'JPY' ? sub.amount * exchangeRate : sub.amount / exchangeRate);
+
+      if (sub.billingCycle === 'monthly') {
+        months.forEach(m => {
+          m.total += amount;
+          m.subscriptions.push({
+            name: sub.name,
+            amount: amount,
+            isYearly: false
+          });
+        });
+      } else {
+        const paymentMonth = new Date(sub.nextPaymentDate).getMonth();
+        months[paymentMonth].total += amount;
+        months[paymentMonth].subscriptions.push({  // 追加
+          name: sub.name,
+          amount: amount,
+          isYearly: true
+        });
+      }
+    });
+
+    return months;
+  };
 
   const calculateCurrentMonthTotal = () => {
     const currentMonth = new Date().getMonth();
@@ -57,36 +97,19 @@ export default function Index() {
     <div className="container mx-auto p-4">
       <Header />
       
-      <div className="space-y-8">
-        <div className="space-y-4">
-          <CurrentMonthTotalCard 
-            selectedCurrency={selectedCurrency} 
-            setSelectedCurrency={setSelectedCurrency} 
-            calculateCurrentMonthTotal={calculateCurrentMonthTotal} 
-            formatAmount={formatAmount} 
-            exchangeRate={exchangeRate} 
-          />
-        </div>
-
-        <Separator />
-        
-        <div className="flex justify-between items-center">
-          <h2 className="text-2xl font-bold">サブスクリプション</h2>
-          <span>
-            登録件数: {subscriptions.length}
-          </span>
-        </div>
-
-        <div className="grid gap-4">
-          {subscriptions.map((sub) => (
-            <SubscriptionCard 
-              key={sub.id} 
-              sub={sub} 
-              deleteSubscription={deleteSubscription} 
-              formatAmount={formatAmount} 
-            />
-          ))}
-        </div>
+      <div className="mb-8 space-y-4">
+        <CurrentMonthTotalCard 
+          selectedCurrency={selectedCurrency} 
+          setSelectedCurrency={setSelectedCurrency} 
+          calculateCurrentMonthTotal={calculateCurrentMonthTotal} 
+          formatAmount={formatAmount} 
+          exchangeRate={exchangeRate} 
+        />
+        <MonthlyTotalCard 
+          calculateMonthlyTotals={calculateMonthlyTotals} 
+          formatAmount={formatAmount} 
+          selectedCurrency={selectedCurrency} 
+        />
       </div>
     </div>
   );

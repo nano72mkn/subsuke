@@ -84,7 +84,7 @@ export default function NewSubscription() {
               <SelectValue placeholder="カテゴリーを選択" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="エンターテイメント">エンターテイメント</SelectItem>
+              <SelectItem value="趣味">趣味</SelectItem>
               <SelectItem value="仕事">仕事</SelectItem>
               <SelectItem value="生活">生活</SelectItem>
               <SelectItem value="その他">その他</SelectItem>
