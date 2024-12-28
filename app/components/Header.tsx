@@ -1,6 +1,6 @@
 import { NavLink } from "@remix-run/react";
 import clsx from "clsx";
-import { ChartColumn, EllipsisVertical, PlusCircle, ScrollText } from "lucide-react";
+import { ChartColumn, PlusCircle, ScrollText, Settings2 } from "lucide-react";
 import { useState } from "react";
 import { z } from "zod";
 import { siteConfig } from "~/config/site";
@@ -80,7 +80,8 @@ export const Header = () => {
     <div className={clsx(
       "flex gap-6 items-center",
       "max-md:fixed max-md:left-0 max-md:bottom-0",
-      "max-md:w-full max-md:bg-white max-md:shadow max-md:py-4 max-md:px-6 max-md:z-10"
+      "max-md:w-full max-md:bg-white max-md:shadow max-md:py-4 max-md:px-6 max-md:z-10",
+      "max-md:justify-center"
     )}>
       <NavLink to="/"
         className={({ isActive }) =>
@@ -88,7 +89,8 @@ export const Header = () => {
         }
         viewTransition
       >
-        <ScrollText size={16} />サブスクリスト
+        <ScrollText size={24} className="md:h-4 md:w-4" />
+        <span className="max-md:hidden">サブスクリスト</span>
       </NavLink>
       <NavLink to="/dashboard"
         className={({ isActive }) =>
@@ -96,27 +98,17 @@ export const Header = () => {
         }
         viewTransition
       >
-        <ChartColumn size={16} />ダッシュボード
+        <ChartColumn size={24} className="md:h-4 md:w-4" />
+        <span className="max-md:hidden">ダッシュボード</span>
       </NavLink>
-      <Modal
-        title="サブスクを追加"
-        description="新しいサブスクリプションを追加します。"
-        trigger={
-          <Button>
-            <PlusCircle className="mr-2 h-4 w-4" />
-            新規追加
-          </Button>
-        }
-      >
-        {({ onClose }) => <AddForm onSubmitSuccess={() => {
-          onClose();
-        }} />}
-      </Modal>
       
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <EllipsisVertical />
+            <div className="text-sm flex items-center gap-2 hover:underline">
+              <Settings2 size={24} className="md:h-4 md:w-4" />
+              <span className="max-md:hidden">設定</span>
+            </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuLabel>データの移行</DropdownMenuLabel>
@@ -137,6 +129,21 @@ export const Header = () => {
           <Input id="json" type="file" accept=".json" onChange={handleFileImport} />
         </DialogContent>
       </Dialog>
+
+      <Modal
+        title="サブスクを追加"
+        description="新しいサブスクリプションを追加します。"
+        trigger={
+          <Button className="flex items-center gap-2" aria-label="サブスクを新規追加する">
+            <PlusCircle className="h-4 w-4" />
+            <span className="max-md:hidden">新規追加</span>
+          </Button>
+        }
+      >
+        {({ onClose }) => <AddForm onSubmitSuccess={() => {
+          onClose();
+        }} />}
+      </Modal>
     </div>
   </div>
 };

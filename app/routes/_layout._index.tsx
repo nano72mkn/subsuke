@@ -20,36 +20,36 @@ export default function Index() {
   , [subscriptions]);
 
   return (
-      <div className="space-y-8">
-        <Separator />
-        
-        <div className="flex justify-between items-center">
-          <h2 className="text-2xl font-bold">サブスクリプション</h2>
-          <div className="flex items-center gap-4">
-            <FilterModal
-              searchQuery={searchQuery}
-              filterCategory={filterCategory}
-              filterCycle={filterCycle}
-              setSearchQuery={setSearchQuery}
-              setFilterCategory={setFilterCategory}
-              setFilterCycle={setFilterCycle}
-            />
-            <span>
-              件数: {filteredSubscriptions().length}
-            </span>
-          </div>
-        </div>
-
-        <div className="grid gap-4">
-          {filteredSubscriptions().map((sub) => (
-            <SubscriptionCard 
-              key={sub.id} 
-              sub={sub} 
-              deleteSubscription={deleteSubscription} 
-            />
-          ))}
+    <div className="space-y-8">
+      <Separator />
+      
+      <div className="flex justify-between items-center">
+        <h2 className="text-2xl font-bold">サブスクリプション</h2>
+        <div className="flex items-center gap-4">
+          <FilterModal
+            searchQuery={searchQuery}
+            filterCategory={filterCategory}
+            filterCycle={filterCycle}
+            setSearchQuery={setSearchQuery}
+            setFilterCategory={setFilterCategory}
+            setFilterCycle={setFilterCycle}
+          />
+          <span>
+            件数: {filteredSubscriptions().length}
+          </span>
         </div>
       </div>
+
+      <div className="grid gap-4">
+        {filteredSubscriptions().map((sub) => (
+          <SubscriptionCard 
+            key={sub.id} 
+            sub={sub} 
+            deleteSubscription={deleteSubscription} 
+          />
+        ))}
+      </div>
+    </div>
   );
 }
 
