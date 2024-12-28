@@ -90,7 +90,7 @@ export const Header = () => {
         viewTransition
       >
         <ScrollText size={24} className="md:h-4 md:w-4" />
-        <span className="max-md:hidden">サブスクリスト</span>
+        <span className="max-md:sr-only">サブスクリスト</span>
       </NavLink>
       <NavLink to="/dashboard"
         className={({ isActive }) =>
@@ -99,7 +99,7 @@ export const Header = () => {
         viewTransition
       >
         <ChartColumn size={24} className="md:h-4 md:w-4" />
-        <span className="max-md:hidden">ダッシュボード</span>
+        <span className="max-md:sr-only">ダッシュボード</span>
       </NavLink>
       
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -107,7 +107,7 @@ export const Header = () => {
           <DropdownMenuTrigger>
             <div className="text-sm flex items-center gap-2 hover:underline">
               <Settings2 size={24} className="md:h-4 md:w-4" />
-              <span className="max-md:hidden">設定</span>
+              <span className="max-md:sr-only">設定</span>
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
@@ -136,7 +136,7 @@ export const Header = () => {
         trigger={
           <Button className="flex items-center gap-2" aria-label="サブスクを新規追加する">
             <PlusCircle className="h-4 w-4" />
-            <span className="max-md:hidden">新規追加</span>
+            <span className="max-md:sr-only">新規追加</span>
           </Button>
         }
       >

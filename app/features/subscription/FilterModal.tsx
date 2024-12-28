@@ -36,7 +36,12 @@ export const FilterModal: FC<Props> = ({
     <Modal
       title="フィルター"
       description="サブスクリプションをフィルタリングします"
-      trigger={<Button variant="outline"><SlidersHorizontal />フィルター</Button>}
+      trigger={
+        <Button variant="outline">
+          <SlidersHorizontal />
+          <span className="max-md:sr-only">フィルター</span>
+        </Button>
+      }
       footer={<Button type="button" variant="ghost" onClick={clearFilters}>クリア</Button>}
     >
       {() => (
