@@ -1,5 +1,7 @@
-import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, Tooltip, XAxis } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import { ChartContainer, type ChartConfig } from "~/components/ui/chart";
+import { useSubscriptions } from "~/hooks/useSubscriptions";
 import { CalculateMonthlyTotal, Currency } from "~/types";
 
 type MonthlyTotalCardProps = {
@@ -8,18 +10,31 @@ type MonthlyTotalCardProps = {
   selectedCurrency: Currency;
 };
 
+const chartConfig = {
+  total: {
+    label: "合計金額",
+    color: "#000",
+  },
+} satisfies ChartConfig
+
 export function MonthlyTotalCard({ calculateMonthlyTotals, formatAmount, selectedCurrency }: MonthlyTotalCardProps) {
+  const { subscriptions } = useSubscriptions();
+  const calculateMonthlyTotalsData = calculateMonthlyTotals();
+
   return (
     <Card>
       <CardHeader>
         <CardTitle>月別支払額</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="h-64">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={calculateMonthlyTotals()}>
+          <ChartContainer config={chartConfig} className="h-64 w-full">
+            <BarChart accessibilityLayer data={calculateMonthlyTotalsData}>
+              <CartesianGrid vertical={false} />
               <XAxis dataKey="month" />
-              <YAxis />
+              <Bar 
+                dataKey="total"
+                radius={[4, 4, 4, 4]}
+              />
               <Tooltip
                 content={({ payload, active }) => {
                   if (active && payload && payload.length) {
@@ -50,14 +65,8 @@ export function MonthlyTotalCard({ calculateMonthlyTotals, formatAmount, selecte
                   return null;
                 }}
               />
-              <Bar 
-                dataKey="total" 
-                fill="#3b82f6"
-                name="支払額"
-              />
             </BarChart>
-          </ResponsiveContainer>
-        </div>
+          </ChartContainer>
       </CardContent>
     </Card>
   );

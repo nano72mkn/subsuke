@@ -3,6 +3,7 @@ import { data, Link, useLoaderData } from "@remix-run/react";
 import { PlusCircle } from "lucide-react";
 import { useState } from "react";
 import { Button } from "~/components/ui/button";
+import { siteConfig } from "~/config/site";
 import { CurrentMonthTotalCard } from "~/features/subscription/CurrentMonthTotalCard";
 import { MonthlyTotalCard } from "~/features/subscription/MonthlyTotalCard";
 import { SubscriptionCard } from "~/features/subscription/SubscriptionCard";
@@ -98,7 +99,7 @@ export default function Index() {
   return (
     <div className="container mx-auto p-4">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">サブスクリプション管理</h1>
+        <h1 className="text-3xl font-bold">{ siteConfig.title }</h1>
         <Link to="/new">
           <Button>
             <PlusCircle className="mr-2 h-4 w-4" />

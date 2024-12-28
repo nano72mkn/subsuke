@@ -1,12 +1,13 @@
 import type { WebAppManifest } from '@remix-pwa/dev';
 import { data } from '@remix-run/node';
+import { siteConfig } from '~/config/site';
 
 export const loader = () => {
   return data(
     {
-      name: 'Subsuke - サブスク管理アプリ',
+      name: siteConfig.title,
       short_name: 'Subsuke',
-      description: "サブスクリプションを管理するアプリ",
+      description: siteConfig.description,
       start_url: '/',
       display: 'standalone',
       background_color: '#fff',
