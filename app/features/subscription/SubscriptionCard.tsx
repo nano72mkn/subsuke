@@ -1,6 +1,7 @@
 import { Trash2 } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent } from "~/components/ui/card";
+import { categoryOptions } from "~/config/category";
 import { Currency, Subscription } from "~/types";
 
 type SubscriptionCardProps = {
@@ -26,7 +27,7 @@ export function SubscriptionCard({ sub, deleteSubscription, formatAmount }: Subs
               /{sub.billingCycle === 'monthly' ? '月' : '年'}
             </p>
             <p className="text-sm text-gray-500">
-              {sub.category}
+              {categoryOptions.find((category) => category.id === sub.category)?.label}
             </p>
           </div>
           <Button

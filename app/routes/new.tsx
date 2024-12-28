@@ -4,6 +4,7 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/components/ui/select";
+import { categoryOptions } from "~/config/category";
 import { useSubscriptions } from "~/hooks/useSubscriptions";
 import type { BillingCycle, Currency } from "~/types";
 
@@ -84,10 +85,11 @@ export default function NewSubscription() {
               <SelectValue placeholder="カテゴリーを選択" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="趣味">趣味</SelectItem>
-              <SelectItem value="仕事">仕事</SelectItem>
-              <SelectItem value="生活">生活</SelectItem>
-              <SelectItem value="その他">その他</SelectItem>
+              {categoryOptions.map((category) => (
+                <SelectItem key={category.id} value={category.id}>
+                  {category.label}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
