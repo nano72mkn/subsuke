@@ -26,6 +26,12 @@ export const FilterModal: FC<Props> = ( props ) => {
   const [open, setOpen] = useState(false);
   const isDesktop = useMediaQuery({ minWidth: 768 });
 
+  const clearFilters = () => {
+    props.setSearchQuery('');
+    props.setFilterCycle('all');
+    props.setFilterCategory('all');
+  }
+
   if (isDesktop) {
     return (
       <Dialog open={open} onOpenChange={setOpen}>
@@ -40,6 +46,7 @@ export const FilterModal: FC<Props> = ( props ) => {
           </DialogHeader>
           <Form {...props} />
           <DialogFooter>
+            <Button type="button" variant="ghost" onClick={clearFilters}>クリア</Button>
             <DialogClose asChild>
               <Button type="button" variant="secondary">閉じる</Button>
             </DialogClose>
@@ -62,8 +69,9 @@ export const FilterModal: FC<Props> = ( props ) => {
           <Form {...props} />
         </div>
         <DrawerFooter className="pt-2">
+          <Button variant="ghost" onClick={clearFilters}>クリア</Button>
           <DrawerClose asChild>
-            <Button variant="outline">Cancel</Button>
+            <Button variant="outline">閉じる</Button>
           </DrawerClose>
         </DrawerFooter>
       </DrawerContent>
