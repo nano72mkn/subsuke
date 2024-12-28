@@ -4,12 +4,25 @@ import { data } from '@remix-run/node';
 export const loader = () => {
   return data(
     {
-      short_name: 'PWA',
-      name: 'Remix PWA',
+      name: 'Subsuke - サブスク管理アプリ',
+      short_name: 'Subsuke',
+      description: "サブスクリプションを管理するアプリ",
       start_url: '/',
       display: 'standalone',
-      background_color: '#d3d7dd',
-      theme_color: '#c34138',
+      background_color: '#fff',
+      theme_color: '#000',
+      icons: [
+        {
+          src: "/android-chrome-192x192.png",
+          sizes: "192x192",
+          type: "image/png"
+        },
+        {
+          src: "/android-chrome-512x512.png",
+          sizes: "512x512",
+          type: "image/png"
+        }
+      ],
     } as WebAppManifest,
     {
       headers: {
