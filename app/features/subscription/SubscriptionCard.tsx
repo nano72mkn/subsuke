@@ -2,15 +2,15 @@ import { Trash2 } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent } from "~/components/ui/card";
 import { categoryOptions } from "~/config/category";
-import { Currency, Subscription } from "~/types";
+import { formatAmount } from "~/lib/formatAmount";
+import { Subscription } from "~/types";
 
 type SubscriptionCardProps = {
   sub: Subscription;
   deleteSubscription: (id: string) => void;
-  formatAmount: (amount: number, currency: Currency) => string;
 };
 
-export function SubscriptionCard({ sub, deleteSubscription, formatAmount }: SubscriptionCardProps) {
+export function SubscriptionCard({ sub, deleteSubscription }: SubscriptionCardProps) {
   return (
     <Card key={sub.id}>
       <CardContent className="flex justify-between items-center p-6">

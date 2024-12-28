@@ -1,8 +1,6 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { data, useLoaderData } from "@remix-run/react";
 import { useState } from "react";
-import { Header } from "~/components/Header";
-import { CurrentMonthTotalCard } from "~/features/subscription/CurrentMonthTotalCard";
 import { MonthlyTotalCard } from "~/features/subscription/MonthlyTotalCard";
 import { useSubscriptions } from "~/hooks/useSubscriptions";
 import { CalculateMonthlyTotal, Currency } from "~/types";
@@ -14,8 +12,8 @@ export const loader: LoaderFunction = async () => {
 };
 
 export default function Index() {
-  const { subscriptions, deleteSubscription } = useSubscriptions();
-  const [selectedCurrency, setSelectedCurrency] = useState<Currency>('JPY');
+  const { subscriptions } = useSubscriptions();
+  const [selectedCurrency] = useState<Currency>('JPY');
   const { exchangeRate } = useLoaderData<typeof loader>();
 
   const calculateMonthlyTotals = (): CalculateMonthlyTotal[] => {
@@ -59,32 +57,6 @@ export default function Index() {
     return months;
   };
 
-  const calculateCurrentMonthTotal = () => {
-    const currentMonth = new Date().getMonth();
-    return subscriptions.reduce((total, sub) => {
-      if (sub.billingCycle === 'yearly') {
-        const paymentMonth = new Date(sub.nextPaymentDate).getMonth();
-        if (paymentMonth !== currentMonth) return total;
-      }
-
-      const monthlyAmount = sub.billingCycle === 'yearly' ? sub.amount : sub.amount;
-      
-      if (selectedCurrency === 'JPY') {
-        if (sub.currency === 'JPY') {
-          return total + monthlyAmount;
-        } else {
-          return total + (monthlyAmount * exchangeRate);
-        }
-      } else {
-        if (sub.currency === 'USD') {
-          return total + monthlyAmount;
-        } else {
-          return total + (monthlyAmount / exchangeRate);
-        }
-      }
-    }, 0);
-  };
-
   const formatAmount = (amount: number, currency: Currency) => {
     if (currency === 'JPY') {
       return `¥${Math.round(amount).toLocaleString()}`;
@@ -94,23 +66,10 @@ export default function Index() {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <Header />
-      
-      <div className="mb-8 space-y-4">
-        <CurrentMonthTotalCard 
-          selectedCurrency={selectedCurrency} 
-          setSelectedCurrency={setSelectedCurrency} 
-          calculateCurrentMonthTotal={calculateCurrentMonthTotal} 
-          formatAmount={formatAmount} 
-          exchangeRate={exchangeRate} 
-        />
-        <MonthlyTotalCard 
-          calculateMonthlyTotals={calculateMonthlyTotals} 
-          formatAmount={formatAmount} 
-          selectedCurrency={selectedCurrency} 
-        />
-      </div>
-    </div>
+    <MonthlyTotalCard 
+      calculateMonthlyTotals={calculateMonthlyTotals} 
+      formatAmount={formatAmount} 
+      selectedCurrency={selectedCurrency} 
+    />
   );
 }

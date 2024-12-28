@@ -1,16 +1,16 @@
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/components/ui/select";
+import { formatAmount } from "~/lib/formatAmount";
 import { Currency } from "~/types";
 
 type CurrentMonthTotalCardProps = {
   selectedCurrency: Currency;
   setSelectedCurrency: (currency: Currency) => void;
   calculateCurrentMonthTotal: () => number;
-  formatAmount: (amount: number, currency: Currency) => string;
   exchangeRate: number;
 };
 
-export function CurrentMonthTotalCard({ selectedCurrency, setSelectedCurrency, calculateCurrentMonthTotal, formatAmount, exchangeRate }: CurrentMonthTotalCardProps) {
+export function CurrentMonthTotalCard({ selectedCurrency, setSelectedCurrency, calculateCurrentMonthTotal, exchangeRate }: CurrentMonthTotalCardProps) {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

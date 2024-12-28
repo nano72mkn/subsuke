@@ -8,6 +8,7 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
+import { Header } from './components/Header';
 import styles from "./tailwind.css?url";
 
 export const links: LinksFunction = () => [
@@ -26,7 +27,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <ManifestLink />
       </head>
       <body>
-        {children}
+        <div className="container mx-auto p-4">
+          <Header />
+          {children}
+        </div>
         <ScrollRestoration />
         <Scripts />
       </body>
