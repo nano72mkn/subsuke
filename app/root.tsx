@@ -1,4 +1,3 @@
-import { ManifestLink } from '@remix-pwa/sw';
 import type { LinksFunction } from "@remix-run/node";
 import {
   Links,
@@ -24,7 +23,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
-        <ManifestLink />
       </head>
       <body>
         <div className="container mx-auto p-4">

@@ -132,9 +132,9 @@ const routes = {
     hasWorkerAction: false,
     module: route1
   },
-  "routes/dashboard": {
-    id: "routes/dashboard",
-    parentId: "root",
+  "routes/_layout.dashboard": {
+    id: "routes/_layout.dashboard",
+    parentId: "routes/_layout",
     path: "dashboard",
     index: void 0,
     caseSensitive: void 0,
@@ -144,9 +144,9 @@ const routes = {
     hasWorkerAction: false,
     module: route2
   },
-  "routes/_index": {
-    id: "routes/_index",
-    parentId: "root",
+  "routes/_layout._index": {
+    id: "routes/_layout._index",
+    parentId: "routes/_layout",
     path: void 0,
     index: true,
     caseSensitive: void 0,
@@ -156,13 +156,13 @@ const routes = {
     hasWorkerAction: false,
     module: route3
   },
-  "routes/new": {
-    id: "routes/new",
+  "routes/_layout": {
+    id: "routes/_layout",
     parentId: "root",
-    path: "new",
+    path: void 0,
     index: void 0,
     caseSensitive: void 0,
-    hasLoader: false,
+    hasLoader: true,
     hasAction: false,
     hasWorkerLoader: false,
     hasWorkerAction: false,

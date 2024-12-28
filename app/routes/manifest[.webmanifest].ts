@@ -1,9 +1,9 @@
 import type { WebAppManifest } from '@remix-pwa/dev';
-import { data } from '@remix-run/node';
+import { type LoaderFunction } from '@remix-run/node';
 import { siteConfig } from '~/config/site';
 
-export const loader = () => {
-  return data(
+export const loader: LoaderFunction = async () => {
+  return Response.json(
     {
       name: siteConfig.title,
       short_name: 'Subsuke',
