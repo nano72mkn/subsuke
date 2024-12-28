@@ -7,7 +7,7 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
-import { Header } from './components/Header';
+import { Header } from "./components/Header";
 import { Toaster } from "./components/ui/toaster";
 import styles from "./tailwind.css?url";
 
@@ -26,8 +26,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
+        <Header />
         <div className="container mx-auto p-4 mb-24">
-          <Header />
           {children}
         </div>
         <Toaster />

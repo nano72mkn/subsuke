@@ -71,79 +71,81 @@ export const Header = () => {
     }
   };
   
-  return <div className="flex justify-between items-center mb-6">
-    <div className="flex items-center gap-2">
-      <LogoIcon />
-      <h1 className="text-3xl font-bold">{siteConfig.title}</h1>
-    </div>
+  return <div className="container mx-auto p-4 sticky top-0 z-10 bg-white">
+    <div className="flex justify-between items-center">
+      <div className="flex items-center gap-2">
+        <LogoIcon />
+        <h1 className="text-3xl font-bold">{siteConfig.title}</h1>
+      </div>
 
-    <div className={clsx(
-      "flex gap-6 items-center",
-      "max-md:fixed max-md:left-0 max-md:bottom-0",
-      "max-md:w-full max-md:bg-white max-md:shadow max-md:py-4 max-md:px-6 max-md:z-10",
-      "max-md:justify-center"
-    )}>
-      <NavLink to="/"
-        className={({ isActive }) =>
-          `text-sm flex items-center gap-2 hover:underline ${isActive ? "underline" : ""}`
-        }
-        viewTransition
-      >
-        <ScrollText size={24} className="md:h-4 md:w-4" />
-        <span className="max-md:sr-only">サブスクリスト</span>
-      </NavLink>
-      <NavLink to="/dashboard"
-        className={({ isActive }) =>
-          `text-sm flex items-center gap-2 hover:underline ${isActive ? "underline" : ""}`
-        }
-        viewTransition
-      >
-        <ChartColumn size={24} className="md:h-4 md:w-4" />
-        <span className="max-md:sr-only">ダッシュボード</span>
-      </NavLink>
-      
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DropdownMenu>
-          <DropdownMenuTrigger>
-            <div className="text-sm flex items-center gap-2 hover:underline">
-              <Settings2 size={24} className="md:h-4 md:w-4" />
-              <span className="max-md:sr-only">設定</span>
-            </div>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuLabel>データの移行</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleDownload}>jsonダウンロード</DropdownMenuItem>
-            <DialogTrigger asChild>
-              <DropdownMenuItem>インポート</DropdownMenuItem>
-            </DialogTrigger>
-          </DropdownMenuContent>
-        </DropdownMenu>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>データをインポート</DialogTitle>
-            <DialogDescription>
-              JSONファイルをアップロードしてください
-            </DialogDescription>
-          </DialogHeader>
-          <Input id="json" type="file" accept=".json" onChange={handleFileImport} />
-        </DialogContent>
-      </Dialog>
+      <div className={clsx(
+        "flex gap-6 items-center",
+        "max-md:fixed max-md:left-0 max-md:bottom-0",
+        "max-md:w-full max-md:bg-white max-md:shadow max-md:py-4 max-md:px-6 max-md:z-10",
+        "max-md:justify-center"
+      )}>
+        <NavLink to="/"
+          className={({ isActive }) =>
+            `text-sm flex items-center gap-2 hover:underline ${isActive ? "underline" : ""}`
+          }
+          viewTransition
+        >
+          <ScrollText size={24} className="md:h-4 md:w-4" />
+          <span className="max-md:sr-only">サブスクリスト</span>
+        </NavLink>
+        <NavLink to="/dashboard"
+          className={({ isActive }) =>
+            `text-sm flex items-center gap-2 hover:underline ${isActive ? "underline" : ""}`
+          }
+          viewTransition
+        >
+          <ChartColumn size={24} className="md:h-4 md:w-4" />
+          <span className="max-md:sr-only">ダッシュボード</span>
+        </NavLink>
+        
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <div className="text-sm flex items-center gap-2 hover:underline">
+                <Settings2 size={24} className="md:h-4 md:w-4" />
+                <span className="max-md:sr-only">設定</span>
+              </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>データの移行</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={handleDownload}>jsonダウンロード</DropdownMenuItem>
+              <DialogTrigger asChild>
+                <DropdownMenuItem>インポート</DropdownMenuItem>
+              </DialogTrigger>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>データをインポート</DialogTitle>
+              <DialogDescription>
+                JSONファイルをアップロードしてください
+              </DialogDescription>
+            </DialogHeader>
+            <Input id="json" type="file" accept=".json" onChange={handleFileImport} />
+          </DialogContent>
+        </Dialog>
 
-      <Modal
-        title="サブスクを追加"
-        description="新しいサブスクリプションを追加します。"
-        trigger={
-          <Button className="flex items-center gap-2" aria-label="サブスクを新規追加する">
-            <PlusCircle className="h-4 w-4" />
-            <span className="max-md:sr-only">新規追加</span>
-          </Button>
-        }
-      >
-        {({ onClose }) => <AddForm onSubmitSuccess={() => {
-          onClose();
-        }} />}
-      </Modal>
+        <Modal
+          title="サブスクを追加"
+          description="新しいサブスクリプションを追加します。"
+          trigger={
+            <Button className="flex items-center gap-2" aria-label="サブスクを新規追加する">
+              <PlusCircle className="h-4 w-4" />
+              <span className="max-md:sr-only">新規追加</span>
+            </Button>
+          }
+        >
+          {({ onClose }) => <AddForm onSubmitSuccess={() => {
+            onClose();
+          }} />}
+        </Modal>
+      </div>
     </div>
   </div>
 };
