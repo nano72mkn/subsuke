@@ -25,6 +25,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta name="google-adsense-account" content="ca-pub-3796518837940513" />
         <Meta />
         <Links />
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3796518837940513"
+          crossOrigin="anonymous"></script>
       </head>
       <body>
         <Header />
