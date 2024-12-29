@@ -1,5 +1,5 @@
 import { Bar, BarChart, CartesianGrid, Tooltip, XAxis } from "recharts";
-import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { ChartContainer, type ChartConfig } from "~/components/ui/chart";
 import { CalculateMonthlyTotal, Currency } from "~/types";
 
@@ -23,6 +23,9 @@ export function MonthlyTotalCard({ calculateMonthlyTotals, formatAmount, selecte
     <Card>
       <CardHeader>
         <CardTitle>月別支払額</CardTitle>
+        <CardDescription>
+          月ごとの支払い合計金額を表示します
+        </CardDescription>
       </CardHeader>
       <CardContent>
           <ChartContainer config={chartConfig} className="h-64 w-full">
