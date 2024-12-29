@@ -24,7 +24,12 @@ export default function Index() {
       <Separator />
       
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">サブスクリプション</h2>
+        <div className="flex items-center gap-4">
+          <h2 className="text-2xl font-bold">サブスクリプション</h2>
+          <span>
+            {filteredSubscriptions().length}件（全{subscriptions.length}件）
+          </span>
+        </div>
         <div className="flex items-center gap-4">
           <FilterModal
             searchQuery={searchQuery}
@@ -34,9 +39,6 @@ export default function Index() {
             setFilterCategory={setFilterCategory}
             setFilterCycle={setFilterCycle}
           />
-          <span>
-            件数: {filteredSubscriptions().length}
-          </span>
         </div>
       </div>
 

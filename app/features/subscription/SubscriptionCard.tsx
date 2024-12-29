@@ -1,6 +1,7 @@
-import { Trash2 } from "lucide-react";
+import { EllipsisVertical, Trash2 } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent } from "~/components/ui/card";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "~/components/ui/dropdown-menu";
 import { categoryOptions } from "~/config/category";
 import { formatAmount } from "~/lib/formatAmount";
 import { Subscription } from "~/types";
@@ -30,13 +31,22 @@ export function SubscriptionCard({ sub, deleteSubscription }: SubscriptionCardPr
               {categoryOptions.find((category) => category.id === sub.category)?.label}
             </p>
           </div>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => deleteSubscription(sub.id)}
-          >
-            <Trash2 className="h-4 w-4" />
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <Button
+                variant="ghost"
+                size="icon"
+              >
+                <EllipsisVertical size={16} />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem onClick={() => deleteSubscription(sub.id)}>
+                <Trash2 size={16} />
+                <span>削除</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </CardContent>
     </Card>
