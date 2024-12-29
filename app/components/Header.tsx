@@ -2,6 +2,7 @@ import { NavLink } from "@remix-run/react";
 import clsx from "clsx";
 import { ChartColumn, PlusCircle, ScrollText, Settings2 } from "lucide-react";
 import { useState } from "react";
+import { useMediaQuery } from "react-responsive";
 import { z } from "zod";
 import { siteConfig } from "~/config/site";
 import { AddForm } from "~/features/subscription/AddForm";
@@ -26,6 +27,7 @@ const subscriptionSchema = z.array(z.object({
 
 export const Header = () => {
   const { subscriptions } = useSubscriptions();
+  const isDesktop = useMediaQuery({ minWidth: 768 });
   const { toast } = useToast();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const handleDownload = () => {
@@ -85,22 +87,50 @@ export const Header = () => {
         "max-md:justify-center"
       )}>
         <NavLink to="/"
-          className={({ isActive }) =>
-            `text-sm flex items-center gap-2 hover:underline ${isActive ? "underline" : ""}`
-          }
           viewTransition
         >
-          <ScrollText size={24} className="md:h-4 md:w-4" />
-          <span className="max-md:sr-only">サブスクリスト</span>
+          {({ isActive }) => (
+            <Button
+              variant={isDesktop ? "link" : "ghost"}
+              className={
+                clsx(
+                  `text-sm flex items-center gap-2`,
+                  { "underline": isActive },
+                  { "max-md:bg-black max-md:text-white": isActive }
+                )
+              }
+            >
+              <ScrollText size={24} className="md:h-4 md:w-4" />
+              <span className={
+                clsx(
+                  { "max-md:sr-only": !isActive }
+                )
+              }>サブスク</span>
+            </Button>
+          )}
         </NavLink>
         <NavLink to="/dashboard"
-          className={({ isActive }) =>
-            `text-sm flex items-center gap-2 hover:underline ${isActive ? "underline" : ""}`
-          }
           viewTransition
         >
-          <ChartColumn size={24} className="md:h-4 md:w-4" />
-          <span className="max-md:sr-only">ダッシュボード</span>
+          {({ isActive }) => (
+            <Button
+              variant={isDesktop ? "link" : "ghost"}
+              className={
+                clsx(
+                  `text-sm flex items-center gap-2`,
+                  { "underline": isActive },
+                  { "max-md:bg-black max-md:text-white": isActive }
+                )
+              }
+            >
+              <ChartColumn size={24} className="md:h-4 md:w-4" />
+              <span className={
+                clsx(
+                  { "max-md:sr-only": !isActive }
+                )
+              }>ダッシュボード</span>
+            </Button>
+          )}
         </NavLink>
         
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -133,7 +163,7 @@ export const Header = () => {
 
         <Modal
           title="サブスクを追加"
-          description="新しいサブスクリプションを追加します。"
+          description="新しいサブスクを追加します。"
           trigger={
             <Button className="flex items-center gap-2" aria-label="サブスクを新規追加する">
               <PlusCircle className="h-4 w-4" />

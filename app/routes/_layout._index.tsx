@@ -25,7 +25,7 @@ export default function Index() {
       
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-4">
-          <h2 className="text-2xl font-bold">サブスクリプション</h2>
+          <h2 className="text-2xl font-bold">サブスク</h2>
           <span>
             {filteredSubscriptions().length}件（全{subscriptions.length}件）
           </span>
