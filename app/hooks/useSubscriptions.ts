@@ -1,5 +1,6 @@
 import { useEffect, useState, useSyncExternalStore } from 'react';
 import type { BillingCycle, Currency } from '~/types';
+import { toast } from './use-toast';
 
 export type Subscription = {
   id: string;
@@ -46,6 +47,9 @@ export function useSubscriptions() {
     const updated = subscriptions.filter(sub => sub.id !== id);
     localStorage.setItem('subscriptions', JSON.stringify(updated));
     window.dispatchEvent(new Event("storage"));
+    toast({
+      description: '削除しました',
+    });
   };
 
   return { subscriptions, addSubscription, deleteSubscription };
