@@ -17,7 +17,7 @@ export default function Index() {
     const matchesFilterCategory = filterCategory === 'all' || sub.category === filterCategory;
     return matchesSearchQuery && matchesFilterCycle && matchesFilterCategory;
   })
-  , [subscriptions]);
+  , [subscriptions, searchQuery, filterCycle, filterCategory]);
 
   return (
     <div className="space-y-8">
