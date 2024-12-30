@@ -81,10 +81,12 @@ export const Header = () => {
       </div>
 
       <div className={clsx(
-        "flex gap-4 items-center",
-        "max-md:fixed max-md:left-0 max-md:bottom-0",
-        "max-md:w-full max-md:bg-white max-md:shadow max-md:py-4 max-md:px-6 max-md:z-10",
-        "max-md:justify-center"
+        "flex gap-4 items-center max-md:justify-center",
+        "max-md:fixed max-md:left-0 max-md:bottom-6",
+        "max-md:w-fit max-md:left-1/2 max-md:transform max-md:-translate-x-1/2",
+        "max-md:py-2 max-md:px-2",
+        "max-md:bg-white max-md:rounded-lg max-md:shadow-xl max-md:z-10",
+
       )}>
         <NavLink to="/"
           viewTransition
