@@ -1,4 +1,3 @@
-import { NavLink } from "@remix-run/react";
 import clsx from "clsx";
 import { ChartColumn, PlusCircle, ScrollText, Settings2 } from "lucide-react";
 import { useState } from "react";
@@ -8,12 +7,13 @@ import { siteConfig } from "~/config/site";
 import { AddForm } from "~/features/subscription/AddForm";
 import { useToast } from "~/hooks/use-toast";
 import { useSubscriptions } from "~/hooks/useSubscriptions";
-import { LogoIcon } from "./icon/LogoIcon";
-import { Modal } from "./Modal";
-import { Button } from "./ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
-import { Input } from "./ui/input";
+import { LogoIcon } from "../icon/LogoIcon";
+import { Modal } from "../Modal";
+import { Button } from "../ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import { Input } from "../ui/input";
+import { NavButton } from "./NavButton";
 
 const subscriptionSchema = z.array(z.object({
   id: z.string(),
@@ -88,78 +88,8 @@ export const Header = () => {
         "max-md:bg-white max-md:rounded-lg max-md:shadow-xl max-md:z-10",
 
       )}>
-        <NavLink to="/"
-          viewTransition
-        >
-          {({ isActive }) => (
-            <Button
-              variant={isDesktop ? "link" : isActive ? "secondary": "ghost"}
-              className={
-                clsx(
-                  `text-sm flex items-center gap-2`,
-                  { "max-md:underline": isActive },
-                )
-              }
-              style={{
-                viewTransitionName: 'header-link-home'
-              }}
-            >
-              <ScrollText
-                size={24}
-                className="md:h-4 md:w-4"
-                style={{
-                  viewTransitionName: 'header-link-home-icon'
-                }}
-              />
-              <span
-                className={
-                  clsx(
-                    { "max-md:sr-only": !isActive }
-                  )
-                }
-                style={{
-                  viewTransitionName: 'header-link-home-text'
-                }}
-              >サブスク</span>
-            </Button>
-          )}
-        </NavLink>
-        <NavLink to="/dashboard"
-          viewTransition
-        >
-          {({ isActive }) => (
-            <Button
-              variant={isDesktop ? "link" : isActive ? "secondary": "ghost"}
-              className={
-                clsx(
-                  `text-sm flex items-center gap-2`,
-                  { "max-md:underline": isActive }
-                )
-              }
-              style={{
-                viewTransitionName: 'header-link-dashboard'
-              }}
-            >
-              <ChartColumn
-                size={24}
-                className="md:h-4 md:w-4"
-                style={{
-                  viewTransitionName: 'header-link-dashboard-icon'
-                }}
-              />
-              <span
-                className={
-                  clsx(
-                    { "max-md:sr-only": !isActive }
-                  )
-                }
-                style={{
-                  viewTransitionName: 'header-link-dashboard-text'
-                }}
-              >ダッシュボード</span>
-            </Button>
-          )}
-        </NavLink>
+        <NavButton href="/" icon={ScrollText} label="サブスク" id="home" />
+        <NavButton href="/dashboard" icon={ChartColumn} label="ダッシュボード" id="dashboard" />
         
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DropdownMenu>
