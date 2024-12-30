@@ -91,21 +91,34 @@ export const Header = () => {
         >
           {({ isActive }) => (
             <Button
-              variant={isDesktop ? "link" : "ghost"}
+              variant={isDesktop ? "link" : isActive ? "secondary": "ghost"}
               className={
                 clsx(
                   `text-sm flex items-center gap-2`,
                   { "underline": isActive },
-                  { "max-md:bg-black max-md:text-white": isActive }
                 )
               }
+              style={{
+                viewTransitionName: 'header-link-home'
+              }}
             >
-              <ScrollText size={24} className="md:h-4 md:w-4" />
-              <span className={
-                clsx(
-                  { "max-md:sr-only": !isActive }
-                )
-              }>サブスク</span>
+              <ScrollText
+                size={24}
+                className="md:h-4 md:w-4"
+                style={{
+                  viewTransitionName: 'header-link-home-icon'
+                }}
+              />
+              <span
+                className={
+                  clsx(
+                    { "max-md:sr-only": !isActive }
+                  )
+                }
+                style={{
+                  viewTransitionName: 'header-link-home-text'
+                }}
+              >サブスク</span>
             </Button>
           )}
         </NavLink>
@@ -114,21 +127,34 @@ export const Header = () => {
         >
           {({ isActive }) => (
             <Button
-              variant={isDesktop ? "link" : "ghost"}
+              variant={isDesktop ? "link" : isActive ? "secondary": "ghost"}
               className={
                 clsx(
                   `text-sm flex items-center gap-2`,
-                  { "underline": isActive },
-                  { "max-md:bg-black max-md:text-white": isActive }
+                  { "underline": isActive }
                 )
               }
+              style={{
+                viewTransitionName: 'header-link-dashboard'
+              }}
             >
-              <ChartColumn size={24} className="md:h-4 md:w-4" />
-              <span className={
-                clsx(
-                  { "max-md:sr-only": !isActive }
-                )
-              }>ダッシュボード</span>
+              <ChartColumn
+                size={24}
+                className="md:h-4 md:w-4"
+                style={{
+                  viewTransitionName: 'header-link-dashboard-icon'
+                }}
+              />
+              <span
+                className={
+                  clsx(
+                    { "max-md:sr-only": !isActive }
+                  )
+                }
+                style={{
+                  viewTransitionName: 'header-link-dashboard-text'
+                }}
+              >ダッシュボード</span>
             </Button>
           )}
         </NavLink>
