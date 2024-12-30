@@ -81,7 +81,7 @@ export const Header = () => {
       </div>
 
       <div className={clsx(
-        "flex gap-6 items-center",
+        "flex gap-4 items-center",
         "max-md:fixed max-md:left-0 max-md:bottom-0",
         "max-md:w-full max-md:bg-white max-md:shadow max-md:py-4 max-md:px-6 max-md:z-10",
         "max-md:justify-center"
@@ -95,7 +95,7 @@ export const Header = () => {
               className={
                 clsx(
                   `text-sm flex items-center gap-2`,
-                  { "underline": isActive },
+                  { "max-md:underline": isActive },
                 )
               }
               style={{
@@ -131,7 +131,7 @@ export const Header = () => {
               className={
                 clsx(
                   `text-sm flex items-center gap-2`,
-                  { "underline": isActive }
+                  { "max-md:underline": isActive }
                 )
               }
               style={{
@@ -162,10 +162,27 @@ export const Header = () => {
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DropdownMenu>
             <DropdownMenuTrigger>
-              <div className="text-sm flex items-center gap-2 hover:underline">
-                <Settings2 size={24} className="md:h-4 md:w-4" />
-                <span className="max-md:sr-only">設定</span>
-              </div>
+              <Button
+                variant="ghost"
+                className="text-sm flex items-center gap-2 hover:underline"
+                style={{
+                  viewTransitionName: 'header-link-settings'
+                }}
+              >
+                <Settings2
+                  size={24}
+                  className="md:h-4 md:w-4"
+                  style={{
+                    viewTransitionName: 'header-link-settings-icon'
+                  }}
+                />
+                <span
+                  className="max-md:sr-only"
+                  style={{
+                    viewTransitionName: 'header-link-settings-text'
+                  }}
+                >設定</span>
+              </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuLabel>データの移行</DropdownMenuLabel>
@@ -191,9 +208,25 @@ export const Header = () => {
           title="サブスクを追加"
           description="新しいサブスクを追加します。"
           trigger={
-            <Button className="flex items-center gap-2" aria-label="サブスクを新規追加する">
-              <PlusCircle className="h-4 w-4" />
-              <span className="max-md:sr-only">新規追加</span>
+            <Button
+              className="flex items-center gap-2"
+              aria-label="サブスクを新規追加する"
+              style={{
+                viewTransitionName: 'header-link-add'
+              }}
+            >
+              <PlusCircle
+                className="h-4 w-4"
+                style={{
+                  viewTransitionName: 'header-link-add-icon'
+                }}
+              />
+              <span
+                className="max-md:sr-only"
+                style={{
+                  viewTransitionName: 'header-link-add-text'
+                }}
+              >新規追加</span>
             </Button>
           }
         >
