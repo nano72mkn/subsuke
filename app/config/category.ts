@@ -1,7 +1,8 @@
-export type Category = 'life' | 'entertainment' | 'work' | 'other';
+export const category = ['life', 'entertainment', 'work', 'other'] as const;
+export type CategoryType = typeof category[number];
 
 export const categoryOptions: {
-  id: Category,
+  id: CategoryType,
   label: string
 }[] = [
   { label: '生活', id: 'life' },

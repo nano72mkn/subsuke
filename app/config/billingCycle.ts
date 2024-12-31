@@ -1,7 +1,8 @@
-import type { BillingCycle } from "~/types";
+export const billingCycle = ['monthly', 'yearly'] as const;
+export type BillingCycleType = typeof billingCycle[number];
 
 export const billingCycleOptions: {
-  id: BillingCycle,
+  id: BillingCycleType,
   label: string
 }[] = [
   { id: 'monthly', label: '月額' },

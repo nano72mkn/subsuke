@@ -1,12 +1,13 @@
 import { Bar, BarChart, CartesianGrid, Tooltip, XAxis } from "recharts";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { ChartContainer, type ChartConfig } from "~/components/ui/chart";
-import { CalculateMonthlyTotal, Currency } from "~/types";
+import type { CurrencyType } from "~/config/currency";
+import { CalculateMonthlyTotal } from "~/types";
 
 type MonthlyTotalCardProps = {
   calculateMonthlyTotals: () => CalculateMonthlyTotal[];
-  formatAmount: (amount: number, currency: Currency) => string;
-  selectedCurrency: Currency;
+  formatAmount: (amount: number, currency: CurrencyType) => string;
+  selectedCurrency: CurrencyType;
 };
 
 const chartConfig = {

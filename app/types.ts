@@ -1,13 +1,13 @@
-export type Currency = 'JPY' | 'USD';
-export type BillingCycle = 'monthly' | 'yearly';
+import type { BillingCycleType } from "./config/billingCycle";
+import type { CurrencyType } from "./config/currency";
 
 export type Subscription = {
   id: string;
   name: string;
   nextPaymentDate: string;
   amount: number;
-  currency: Currency;
-  billingCycle: BillingCycle;
+  currency: CurrencyType;
+  billingCycle: BillingCycleType;
   category: string;
 };
 

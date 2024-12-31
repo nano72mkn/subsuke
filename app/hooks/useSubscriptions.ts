@@ -1,13 +1,14 @@
 import { useEffect, useState, useSyncExternalStore } from 'react';
-import type { BillingCycle, Currency } from '~/types';
+import type { BillingCycleType } from '~/config/billingCycle';
+import type { CurrencyType } from '~/config/currency';
 import { toast } from './use-toast';
 
 export type Subscription = {
   id: string;
   name: string;
   amount: number;
-  currency: Currency;
-  billingCycle: BillingCycle;
+  currency: CurrencyType;
+  billingCycle: BillingCycleType;
   category: string;
   nextPaymentDate: string;
 };
@@ -52,5 +53,16 @@ export function useSubscriptions() {
     });
   };
 
-  return { subscriptions, addSubscription, deleteSubscription };
+  const updateSubscription = (id: string, updatedData: Partial<Omit<Subscription, 'id'>>) => {
+    const updated = subscriptions.map(sub => 
+      sub.id === id ? { ...sub, ...updatedData } : sub
+    );
+    localStorage.setItem('subscriptions', JSON.stringify(updated));
+    window.dispatchEvent(new Event("storage"));
+    toast({
+      description: '更新しました',
+    });
+  };
+
+  return { subscriptions, addSubscription, deleteSubscription, updateSubscription };
 }

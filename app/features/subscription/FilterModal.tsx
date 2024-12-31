@@ -5,17 +5,16 @@ import { Button } from "~/components/ui/button"
 import { Input } from "~/components/ui/input"
 import { Label } from "~/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/components/ui/select"
-import { billingCycleOptions } from "~/config/billingCycle"
-import { categoryOptions, type Category } from "~/config/category"
-import type { BillingCycle } from "~/types"
+import { billingCycleOptions, type BillingCycleType } from "~/config/billingCycle"
+import { categoryOptions, type CategoryType } from "~/config/category"
 
 type Props = {
   searchQuery: string;
-  filterCategory: Category | 'all';
-  filterCycle: BillingCycle | 'all';
+  filterCategory: CategoryType | 'all';
+  filterCycle: BillingCycleType | 'all';
   setSearchQuery: (value: string) => void;
-  setFilterCycle: (value: BillingCycle | 'all') => void;
-  setFilterCategory: (value: Category | 'all') => void;
+  setFilterCycle: (value: BillingCycleType | 'all') => void;
+  setFilterCategory: (value: CategoryType | 'all') => void;
 }
 
 export const FilterModal: FC<Props> = ({
@@ -53,7 +52,7 @@ export const FilterModal: FC<Props> = ({
 
           <div className="grid gap-2">
             <Label htmlFor="category">カテゴリ</Label>
-            <Select onValueChange={v => setFilterCategory(v as Category | 'all')} defaultValue={filterCategory}>
+            <Select onValueChange={v => setFilterCategory(v as CategoryType | 'all')} defaultValue={filterCategory}>
               <SelectTrigger className="w-[180px]" id="billing-cycle">
                 <SelectValue placeholder="カテゴリ" />
               </SelectTrigger>
@@ -70,7 +69,7 @@ export const FilterModal: FC<Props> = ({
         
           <div className="grid gap-2">
             <Label htmlFor="billing-cycle">支払間隔</Label>
-            <Select onValueChange={v => setFilterCycle(v as BillingCycle | 'all')} defaultValue={filterCycle}>
+            <Select onValueChange={v => setFilterCycle(v as BillingCycleType | 'all')} defaultValue={filterCycle}>
               <SelectTrigger className="w-[180px]" id="billing-cycle">
                 <SelectValue placeholder="支払間隔" />
               </SelectTrigger>

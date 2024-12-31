@@ -1,11 +1,11 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/components/ui/select";
+import type { CurrencyType } from "~/config/currency";
 import { formatAmount } from "~/lib/formatAmount";
-import { Currency } from "~/types";
 
 type CurrentMonthTotalCardProps = {
-  selectedCurrency: Currency;
-  setSelectedCurrency: (currency: Currency) => void;
+  selectedCurrency: CurrencyType;
+  setSelectedCurrency: (currency: CurrencyType) => void;
   calculateCurrentMonthTotal: () => number;
   exchangeRate: number;
 };
@@ -18,7 +18,7 @@ export function CurrentMonthTotalCard({ selectedCurrency, setSelectedCurrency, c
           <CardTitle>今月の合計</CardTitle>
           <Select 
             value={selectedCurrency}
-            onValueChange={(value: Currency) => setSelectedCurrency(value)}
+            onValueChange={(value: CurrencyType) => setSelectedCurrency(value)}
           >
             <SelectTrigger className="w-[100px]">
               <SelectValue placeholder="通貨" />
