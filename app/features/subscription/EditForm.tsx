@@ -4,32 +4,40 @@ import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "~/components/ui/button";
 import { Form } from "~/components/ui/form";
+import { toast } from "~/hooks/use-toast";
 import { SubscriptionForm } from "./SubscriptionForm";
 import { useSubscriptions } from "./hooks/useSubscriptions";
 import { subscriptionSchema, type SubscriptionSchemaType } from "./schema/subscriptionSchema";
 
 
 type Props = {
+  subscription: SubscriptionSchemaType;
   onSubmitSuccess: () => void;
 };
 
-export const AddForm: FC<Props> = ({ onSubmitSuccess }) => {
-  const { addSubscription } = useSubscriptions();
+export const EditForm: FC<Props> = ({ subscription, onSubmitSuccess }) => {
+  const { updateSubscription } = useSubscriptions();
   const form = useForm<SubscriptionSchemaType>({
     resolver: zodResolver(subscriptionSchema),
     defaultValues: {
-      name: "",
-      amount: 0,
-      currency: "JPY",
-      billingCycle: "monthly",
-      category: "life",
-      nextPaymentDate: format(new Date(), "yyyy-MM-dd"),
+      name: subscription?.name ?? "",
+      amount: subscription?.amount ?? 0,
+      currency: subscription?.currency ?? "JPY",
+      billingCycle: subscription?.billingCycle ?? "monthly",
+      category: subscription?.category ?? "life",
+      nextPaymentDate: subscription?.nextPaymentDate ?? format(new Date(), "yyyy-MM-dd"),
     },
   });
 
   const onSubmit = (values: SubscriptionSchemaType) => {
-    console.log("on submit", values);
-    addSubscription({
+    if (!subscription?.id) {
+      toast({
+        description: "エラーが発生しました",
+        variant: "destructive",
+      });
+      return;
+    };
+    updateSubscription(subscription.id, {
       name: values.name,
       amount: values.amount,
       currency: values.currency,
@@ -45,7 +53,7 @@ export const AddForm: FC<Props> = ({ onSubmitSuccess }) => {
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <SubscriptionForm control={form.control} />
         <Button type="submit" className="w-full mt-6">
-          登録する
+          更新する
         </Button>
       </form>
     </Form>

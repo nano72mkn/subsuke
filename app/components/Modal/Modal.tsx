@@ -1,8 +1,7 @@
 import { useState, type FC, type ReactNode } from "react"
 import { useMediaQuery } from 'react-responsive'
-import { Button } from "~/components/ui/button"
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "~/components/ui/dialog"
-import { Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "~/components/ui/drawer"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "~/components/ui/dialog"
+import { Drawer, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "~/components/ui/drawer"
 
 type Props = {
   title: string;
@@ -36,9 +35,6 @@ export const Modal: FC<Props> = ({ children, footer, title, description, trigger
           }
           <DialogFooter>
             { footer }
-            <DialogClose asChild>
-              <Button type="button" variant="secondary">閉じる</Button>
-            </DialogClose>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -63,9 +59,6 @@ export const Modal: FC<Props> = ({ children, footer, title, description, trigger
         </div>
         <DrawerFooter className="pt-2">
           { footer }
-          <DrawerClose asChild>
-            <Button variant="outline">閉じる</Button>
-          </DrawerClose>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>

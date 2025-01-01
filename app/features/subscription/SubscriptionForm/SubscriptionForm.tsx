@@ -11,7 +11,7 @@ import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/components/ui/select";
 import { categoryOptions } from "~/config/category";
 import { cn } from "~/lib/utils";
-import type { SubscriptionSchemaType } from "./subscriptionSchema";
+import type { SubscriptionSchemaType } from "../schema/subscriptionSchema";
 
 type Props = {
   control: Control<SubscriptionSchemaType>;
@@ -176,7 +176,7 @@ export const SubscriptionForm: FC<Props> = ({ control }) => {
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
                     mode="single"
-                    selected={field.value}
+                    selected={new Date(field.value)}
                     onSelect={field.onChange}
                     disabled={(date) =>
                       date > new Date() || date < new Date("1900-01-01")
@@ -190,10 +190,6 @@ export const SubscriptionForm: FC<Props> = ({ control }) => {
           </FormItem>
         )}
       />
-      
-      <Button type="submit" className="w-full">
-        登録
-      </Button>
     </div>
   );
 }

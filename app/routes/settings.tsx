@@ -6,8 +6,8 @@ import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
 import { SettingRow } from "~/features/settings/SettingRow";
+import { useSubscriptions } from "~/features/subscription/hooks/useSubscriptions";
 import { useToast } from "~/hooks/use-toast";
-import { useSubscriptions } from "~/hooks/useSubscriptions";
 
 const subscriptionSchema = z.array(z.object({
   id: z.string(),

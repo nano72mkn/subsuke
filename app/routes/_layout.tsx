@@ -3,7 +3,7 @@ import { data, Outlet, useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import type { CurrencyType } from "~/config/currency";
 import { CurrentMonthTotalCard } from "~/features/subscription/CurrentMonthTotalCard";
-import { useSubscriptions } from "~/hooks/useSubscriptions";
+import { useSubscriptions } from "~/features/subscription/hooks/useSubscriptions";
 
 export const loader: LoaderFunction = async () => {
   const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');

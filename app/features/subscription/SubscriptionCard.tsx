@@ -1,14 +1,16 @@
-import { EllipsisVertical, Trash2 } from "lucide-react";
+import { EllipsisVertical, Pencil, Trash2 } from "lucide-react";
+import { Modal } from "~/components/Modal";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "~/components/ui/alert-dialog";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent } from "~/components/ui/card";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "~/components/ui/dropdown-menu";
 import { categoryOptions } from "~/config/category";
 import { formatAmount } from "~/lib/formatAmount";
-import { Subscription } from "~/types";
+import { EditForm } from "./EditForm";
+import type { SubscriptionSchemaType } from "./schema/subscriptionSchema";
 
 type SubscriptionCardProps = {
-  sub: Subscription;
+  sub: SubscriptionSchemaType;
   deleteSubscription: (id: string) => void;
 };
 
@@ -43,6 +45,20 @@ export function SubscriptionCard({ sub, deleteSubscription }: SubscriptionCardPr
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
+                <Modal
+                  title="サブスクを追加"
+                  description="新しいサブスクを追加します。"
+                  trigger={
+                    <DropdownMenuItem onSelect={(event) => event.preventDefault()}>
+                      <Pencil size={16} />
+                      <span>編集</span>
+                    </DropdownMenuItem>
+                  }
+                >
+                  {({ onClose }) => sub.id && <EditForm subscription={sub} onSubmitSuccess={() => {
+                    onClose();
+                  }} />}
+                </Modal>
                 <AlertDialogTrigger asChild>
                   <DropdownMenuItem>
                     <Trash2 size={16} />
@@ -60,7 +76,7 @@ export function SubscriptionCard({ sub, deleteSubscription }: SubscriptionCardPr
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>キャンセル</AlertDialogCancel>
-                <AlertDialogAction onClick={() => deleteSubscription(sub.id)}>削除する</AlertDialogAction>
+                <AlertDialogAction onClick={() => sub.id && deleteSubscription(sub.id)}>削除する</AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>

@@ -1,9 +1,10 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { data, useLoaderData } from "@remix-run/react";
 import { useState } from "react";
+import type { CurrencyType } from "~/config/currency";
+import { useSubscriptions } from "~/features/subscription/hooks/useSubscriptions";
 import { MonthlyTotalCard } from "~/features/subscription/MonthlyTotalCard";
-import { useSubscriptions } from "~/hooks/useSubscriptions";
-import { CalculateMonthlyTotal, Currency } from "~/types";
+import { CalculateMonthlyTotal } from "~/types";
 
 export const loader: LoaderFunction = async () => {
   const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
@@ -13,7 +14,7 @@ export const loader: LoaderFunction = async () => {
 
 export default function Index() {
   const { subscriptions } = useSubscriptions();
-  const [selectedCurrency] = useState<Currency>('JPY');
+  const [selectedCurrency] = useState<CurrencyType>('JPY');
   const { exchangeRate } = useLoaderData<typeof loader>();
 
   const calculateMonthlyTotals = (): CalculateMonthlyTotal[] => {
@@ -57,7 +58,7 @@ export default function Index() {
     return months;
   };
 
-  const formatAmount = (amount: number, currency: Currency) => {
+  const formatAmount = (amount: number, currency: CurrencyType) => {
     if (currency === 'JPY') {
       return `¥${Math.round(amount).toLocaleString()}`;
     } else {

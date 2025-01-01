@@ -1,17 +1,6 @@
 import { useEffect, useState, useSyncExternalStore } from 'react';
-import type { BillingCycleType } from '~/config/billingCycle';
-import type { CurrencyType } from '~/config/currency';
-import { toast } from './use-toast';
-
-export type Subscription = {
-  id: string;
-  name: string;
-  amount: number;
-  currency: CurrencyType;
-  billingCycle: BillingCycleType;
-  category: string;
-  nextPaymentDate: string;
-};
+import { toast } from '~/hooks/use-toast';
+import type { SubscriptionSchemaType } from '../schema/subscriptionSchema';
 
 const subscribe = (callback: () => void) => {
   window.addEventListener("storage", callback);
@@ -21,7 +10,7 @@ const subscribe = (callback: () => void) => {
 };
 
 export function useSubscriptions() {
-  const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
+  const [subscriptions, setSubscriptions] = useState<SubscriptionSchemaType[]>([]);
 
   const subscriptionsString = useSyncExternalStore(
     subscribe,
@@ -34,7 +23,7 @@ export function useSubscriptions() {
     setSubscriptions(JSON.parse(subscriptionsString));
   }, [subscriptionsString]);
 
-  const addSubscription = (subscription: Omit<Subscription, 'id'>) => {
+  const addSubscription = (subscription: Omit<SubscriptionSchemaType, 'id'>) => {
     const newSubscription = {
       ...subscription,
       id: crypto.randomUUID()
@@ -53,7 +42,7 @@ export function useSubscriptions() {
     });
   };
 
-  const updateSubscription = (id: string, updatedData: Partial<Omit<Subscription, 'id'>>) => {
+  const updateSubscription = (id: string, updatedData: Partial<Omit<SubscriptionSchemaType, 'id'>>) => {
     const updated = subscriptions.map(sub => 
       sub.id === id ? { ...sub, ...updatedData } : sub
     );
@@ -64,5 +53,9 @@ export function useSubscriptions() {
     });
   };
 
-  return { subscriptions, addSubscription, deleteSubscription, updateSubscription };
+  const getSubscriptionById = (id: string): SubscriptionSchemaType | undefined => {
+    return subscriptions.find(sub => sub.id === id);
+  };
+
+  return { subscriptions, addSubscription, deleteSubscription, updateSubscription, getSubscriptionById };
 }

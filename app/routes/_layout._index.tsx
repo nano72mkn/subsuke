@@ -1,15 +1,15 @@
 import { useCallback, useState } from "react";
 import { Separator } from "~/components/ui/separator";
-import { type Category } from "~/config/category";
+import type { CategoryType } from "~/config/category";
 import { FilterModal } from "~/features/subscription/FilterModal";
+import { useSubscriptions } from "~/features/subscription/hooks/useSubscriptions";
 import { SubscriptionCard } from "~/features/subscription/SubscriptionCard";
-import { useSubscriptions } from "~/hooks/useSubscriptions";
 
 export default function Index() {
   const { subscriptions, deleteSubscription } = useSubscriptions();
   const [searchQuery, setSearchQuery] = useState('');
   const [filterCycle, setFilterCycle] = useState<'monthly' | 'yearly' | 'all'>('all');
-  const [filterCategory, setFilterCategory] = useState<Category | 'all'>('all');
+  const [filterCategory, setFilterCategory] = useState<CategoryType | 'all'>('all');
 
   const filteredSubscriptions = useCallback(() => subscriptions.filter((sub) => {
     const matchesSearchQuery = sub.name.toLowerCase().includes(searchQuery.toLowerCase());
