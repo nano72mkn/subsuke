@@ -177,7 +177,12 @@ export const SubscriptionForm: FC<Props> = ({ control }) => {
                   <Calendar
                     mode="single"
                     selected={new Date(field.value)}
-                    onSelect={field.onChange}
+                    onSelect={(selectDate) => selectDate && field.onChange({
+                      target: {
+                        value: format(selectDate, "yyyy-MM-dd"),
+                        name: field.name,
+                      },
+                    })}
                     disabled={(date) =>
                       date > new Date() || date < new Date("1900-01-01")
                     }
