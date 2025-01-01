@@ -23,7 +23,7 @@ export const AddForm: FC<Props> = ({ onSubmitSuccess }) => {
       currency: "JPY",
       billingCycle: "monthly",
       category: "life",
-      nextPaymentDate: format(new Date(), "yyyy-MM-dd"),
+      initialPaymentDate: format(new Date(), "yyyy-MM-dd"),
     },
   });
 
@@ -35,7 +35,7 @@ export const AddForm: FC<Props> = ({ onSubmitSuccess }) => {
       currency: values.currency,
       billingCycle: values.billingCycle,
       category: values.category,
-      nextPaymentDate: values.nextPaymentDate,
+      initialPaymentDate: values.initialPaymentDate,
     });
     onSubmitSuccess();
   };

@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import { EllipsisVertical, Pencil, Trash2 } from "lucide-react";
 import { Modal } from "~/components/Modal";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "~/components/ui/alert-dialog";
@@ -5,6 +6,7 @@ import { Button } from "~/components/ui/button";
 import { Card, CardContent } from "~/components/ui/card";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "~/components/ui/dropdown-menu";
 import { categoryOptions } from "~/config/category";
+import { calculateNextPaymentDate } from "~/lib/calculateNextPaymentDate";
 import { formatAmount } from "~/lib/formatAmount";
 import { EditForm } from "./EditForm";
 import type { SubscriptionSchemaType } from "./schema/subscriptionSchema";
@@ -15,14 +17,20 @@ type SubscriptionCardProps = {
 };
 
 export function SubscriptionCard({ sub, deleteSubscription }: SubscriptionCardProps) {
+  const nextPaymentDate = sub.initialPaymentDate && calculateNextPaymentDate({
+    billingCycle: sub.billingCycle,
+    initialPaymentDate: new Date(sub.initialPaymentDate),
+  });
   return (
     <Card key={sub.id}>
       <CardContent className="flex justify-between items-center p-6">
         <div>
           <h3 className="font-bold">{sub.name}</h3>
-          <p className="text-sm text-gray-500">
-            次回支払日: {new Date(sub.nextPaymentDate).toLocaleDateString()}
-          </p>
+          {nextPaymentDate && (
+            <p className="text-sm text-gray-500">
+              次回支払日: {format(nextPaymentDate, "yyyy年MM月dd日")}
+            </p>
+          )}
         </div>
         <div className="flex items-center gap-4">
           <div className="text-right">

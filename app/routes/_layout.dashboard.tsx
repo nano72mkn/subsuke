@@ -45,7 +45,7 @@ export default function Index() {
           });
         });
       } else {
-        const paymentMonth = new Date(sub.nextPaymentDate).getMonth();
+        const paymentMonth = new Date(sub.initialPaymentDate).getMonth();
         months[paymentMonth].total += amount;
         months[paymentMonth].subscriptions.push({  // 追加
           name: sub.name,

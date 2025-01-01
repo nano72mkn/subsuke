@@ -149,10 +149,10 @@ export const SubscriptionForm: FC<Props> = ({ control }) => {
 
       <FormField
         control={control}
-        name="nextPaymentDate"
+        name="initialPaymentDate"
         render={({ field }) => (
           <FormItem className="grid">
-            <FormLabel>次回支払日</FormLabel>
+            <FormLabel>初回支払日</FormLabel>
             <FormControl>
               <Popover>
                 <PopoverTrigger asChild>

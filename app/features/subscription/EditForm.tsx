@@ -25,7 +25,7 @@ export const EditForm: FC<Props> = ({ subscription, onSubmitSuccess }) => {
       currency: subscription?.currency ?? "JPY",
       billingCycle: subscription?.billingCycle ?? "monthly",
       category: subscription?.category ?? "life",
-      nextPaymentDate: subscription?.nextPaymentDate ?? format(new Date(), "yyyy-MM-dd"),
+      initialPaymentDate: subscription?.initialPaymentDate ?? format(new Date(), "yyyy-MM-dd"),
     },
   });
 
@@ -43,7 +43,7 @@ export const EditForm: FC<Props> = ({ subscription, onSubmitSuccess }) => {
       currency: values.currency,
       billingCycle: values.billingCycle,
       category: values.category,
-      nextPaymentDate: values.nextPaymentDate,
+      initialPaymentDate: values.initialPaymentDate,
     });
     onSubmitSuccess();
   };

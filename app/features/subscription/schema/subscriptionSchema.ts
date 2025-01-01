@@ -10,7 +10,9 @@ export const subscriptionSchema = z.object({
   currency: z.enum(currency),
   billingCycle: z.enum(billingCycle),
   category: z.enum(category),
-  nextPaymentDate: z.string(),
+  initialPaymentDate: z.string(),
+  nextPaymentDate: z.string().optional(),
+
 });
 
 export type SubscriptionSchemaType = z.infer<typeof subscriptionSchema>;

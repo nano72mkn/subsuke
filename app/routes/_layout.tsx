@@ -20,7 +20,7 @@ export default function Layout() {
     const currentMonth = new Date().getMonth();
     return subscriptions.reduce((total, sub) => {
       if (sub.billingCycle === 'yearly') {
-        const paymentMonth = new Date(sub.nextPaymentDate).getMonth();
+        const paymentMonth = new Date(sub.initialPaymentDate).getMonth();
         if (paymentMonth !== currentMonth) return total;
       }
 
