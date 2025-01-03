@@ -27,8 +27,14 @@ export default function Index() {
 
   const handleImport = (text: string) => {
     try {
+      // jsonのParseに失敗した場合はエラーを投げる
       const parsedData = JSON.parse(text);
-      subscriptionSchema.parse(parsedData);
+
+      // パースしたデータがスキーマに準拠しているかチェック
+      parsedData.forEach((data: any) => {
+        subscriptionSchema.parse(data);
+      });
+
       localStorage.setItem('subscriptions', JSON.stringify(parsedData));
       window.dispatchEvent(new Event("storage"));
       toast({
@@ -36,6 +42,7 @@ export default function Index() {
         variant: 'default',
       });
     } catch (error) {
+      console.log(error);
       toast({
         title: 'エラー',
         description: 'データのインポートに失敗しました',

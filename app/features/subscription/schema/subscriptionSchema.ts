@@ -12,7 +12,6 @@ export const subscriptionSchema = z.object({
   category: z.enum(category),
   initialPaymentDate: z.string(),
   nextPaymentDate: z.string().optional(),
-
 });
 
 export type SubscriptionSchemaType = z.infer<typeof subscriptionSchema>;
