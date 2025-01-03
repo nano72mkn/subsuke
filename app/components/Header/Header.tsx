@@ -23,9 +23,9 @@ export const Header = () => {
         "max-md:bg-white max-md:rounded-lg max-md:shadow-xl max-md:z-10",
 
       )}>
-        <NavButton href="/" icon={ScrollText} label="サブスク" id="home" />
-        <NavButton href="/dashboard" icon={ChartColumn} label="ダッシュボード" id="dashboard" />
-        <NavButton href="/settings" icon={Settings2} label="設定" id="settings" />
+        <NavButton prefetch="render" href="/" icon={ScrollText} label="サブスク" id="home" />
+        <NavButton prefetch="render" href="/dashboard" icon={ChartColumn} label="ダッシュボード" id="dashboard" />
+        <NavButton prefetch="render" href="/settings" icon={Settings2} label="設定" id="settings" />
 
         <Modal
           title="サブスクを追加"

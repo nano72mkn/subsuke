@@ -1,24 +1,25 @@
 import { NavLink } from "@remix-run/react";
 import clsx from "clsx";
 import type { ChartColumn } from "lucide-react";
-import type { FC } from "react";
+import type { ComponentProps, FC } from "react";
 import { useMediaQuery } from "react-responsive";
 import { Button } from "../ui/button";
 
 type Props = {
   href: string;
+  prefetch: ComponentProps<typeof NavLink>['prefetch'];
   icon: typeof ChartColumn;
   label: string;
   id: string;
 };
 
-export const NavButton: FC<Props> = ({ href, icon: Icon, label, id }) => {
+export const NavButton: FC<Props> = ({ href, prefetch, icon: Icon, label, id }) => {
   const isDesktop = useMediaQuery({ minWidth: 768 });
 
   const viewTransitionName = `header-link-${id}`;
 
   return (
-    <NavLink to={href} viewTransition >
+    <NavLink to={href} prefetch={prefetch} viewTransition >
       {({ isActive }) => (
         <Button
           variant={isDesktop ? isActive ? "secondary" : "link" : isActive ? "secondary": "ghost"}

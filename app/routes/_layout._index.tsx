@@ -1,4 +1,6 @@
+import { isRouteErrorResponse, useRouteError } from "@remix-run/react";
 import { useCallback, useState } from "react";
+import { ErrorCard } from "~/components/ErrorCard/ErrorCard";
 import { Separator } from "~/components/ui/separator";
 import type { CategoryType } from "~/config/category";
 import { FilterModal } from "~/features/subscription/FilterModal";
@@ -53,5 +55,20 @@ export default function Index() {
       </div>
     </div>
   );
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+  if (isRouteErrorResponse(error)) {
+    return (
+      <ErrorCard title={`${error.status}: ${error.statusText}`} description={error.data} />
+    );
+  } else if (error instanceof Error) {
+    return (
+      <ErrorCard title="Error" description={error.message} />
+    );
+  } else {
+    return <ErrorCard title="Error" description="予期せぬエラーが発生しました" />;
+  }
 }
 

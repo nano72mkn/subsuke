@@ -1,6 +1,7 @@
 import type { LoaderFunction } from "@remix-run/node";
-import { data, Outlet, useLoaderData } from "@remix-run/react";
+import { data, isRouteErrorResponse, Outlet, useLoaderData, useRouteError } from "@remix-run/react";
 import { useState } from "react";
+import { ErrorCard } from "~/components/ErrorCard/ErrorCard";
 import type { CurrencyType } from "~/config/currency";
 import { CurrentMonthTotalCard } from "~/features/subscription/CurrentMonthTotalCard";
 import { useSubscriptions } from "~/features/subscription/hooks/useSubscriptions";
@@ -53,4 +54,19 @@ export default function Layout() {
       <Outlet />
     </div>
   )
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+  if (isRouteErrorResponse(error)) {
+    return (
+      <ErrorCard title={`${error.status}: ${error.statusText}`} description={error.data} />
+    );
+  } else if (error instanceof Error) {
+    return (
+      <ErrorCard title="Error" description={error.message} />
+    );
+  } else {
+    return <ErrorCard title="Error" description="予期せぬエラーが発生しました" />;
+  }
 }
