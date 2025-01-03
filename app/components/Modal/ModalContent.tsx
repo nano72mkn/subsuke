@@ -1,3 +1,4 @@
+import { DialogDescription } from "@radix-ui/react-dialog";
 import type { FC, ReactNode } from "react";
 import { useMediaQuery } from "react-responsive";
 import { DialogContent, DialogFooter, DialogHeader, DialogTitle } from "../ui/dialog";
@@ -5,16 +6,18 @@ import { DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle } from "../ui/dr
 
 type Props = {
   title: string;
+  description: string;
   children: ReactNode;
   footer?: ReactNode;
 };
 
-export const ModalContent: FC<Props> = ({ title, children, footer }) => {
+export const ModalContent: FC<Props> = ({ title, description, children, footer }) => {
   const isDesktop = useMediaQuery({ minWidth: 768 });
 
   if (isDesktop) {
     return (
       <DialogContent className="sm:max-w-[425px]">
+        <DialogDescription className="sr-only">{ description }</DialogDescription>
         <DialogHeader>
           <DialogTitle>{ title }</DialogTitle>
         </DialogHeader>

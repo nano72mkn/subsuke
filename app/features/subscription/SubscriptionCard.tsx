@@ -76,6 +76,7 @@ export function SubscriptionCard({ sub, deleteSubscription }: SubscriptionCardPr
 
               <ModalContent
                 title="サブスクを追加"
+                description="新しいサブスクを追加します。"
               >
                 {sub.id && <EditForm subscription={sub} onSubmitSuccess={() => {
                   setOpen(false);
