@@ -74,15 +74,6 @@ export function SubscriptionCard({ sub, deleteSubscription }: SubscriptionCardPr
                 </DropdownMenuContent>
               </DropdownMenu>
 
-              <ModalContent
-                title="サブスクを追加"
-                description="新しいサブスクを追加します。"
-              >
-                {sub.id && <EditForm subscription={sub} onSubmitSuccess={() => {
-                  setOpen(false);
-                }} />}
-              </ModalContent>
-            
               <AlertDialogContent>
                 <AlertDialogHeader>
                   <AlertDialogTitle>{ sub.name }を削除しますか？</AlertDialogTitle>
@@ -96,6 +87,15 @@ export function SubscriptionCard({ sub, deleteSubscription }: SubscriptionCardPr
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
+
+            <ModalContent
+              title="サブスクを追加"
+              description="新しいサブスクを追加します。"
+            >
+              {sub.id && <EditForm subscription={sub} onSubmitSuccess={() => {
+                setOpen(false);
+              }} />}
+            </ModalContent>
           </ModalWrapper>
         </div>
       </CardContent>

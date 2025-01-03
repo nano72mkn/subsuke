@@ -1,4 +1,4 @@
-import { useEffect, useState, useSyncExternalStore } from 'react';
+import { useEffect, useId, useState, useSyncExternalStore } from 'react';
 import { toast } from '~/hooks/use-toast';
 import type { SubscriptionSchemaType } from '../schema/subscriptionSchema';
 
@@ -10,6 +10,7 @@ const subscribe = (callback: () => void) => {
 };
 
 export function useSubscriptions() {
+  const id = useId()
   const [subscriptions, setSubscriptions] = useState<SubscriptionSchemaType[]>([]);
 
   const subscriptionsString = useSyncExternalStore(
@@ -26,7 +27,7 @@ export function useSubscriptions() {
   const addSubscription = (subscription: Omit<SubscriptionSchemaType, 'id'>) => {
     const newSubscription = {
       ...subscription,
-      id: crypto.randomUUID()
+      id,
     };
     const updated = [...subscriptions, newSubscription];
     localStorage.setItem('subscriptions', JSON.stringify(updated));
