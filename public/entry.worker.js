@@ -152,7 +152,7 @@ const routes = {
     path: "dashboard",
     index: void 0,
     caseSensitive: void 0,
-    hasLoader: true,
+    hasLoader: false,
     hasAction: false,
     hasWorkerLoader: false,
     hasWorkerAction: false,
