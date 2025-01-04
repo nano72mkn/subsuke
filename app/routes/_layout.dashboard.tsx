@@ -1,22 +1,16 @@
-import type { LoaderFunction } from "@remix-run/node";
-import { data, isRouteErrorResponse, useLoaderData, useRouteError } from "@remix-run/react";
+import { isRouteErrorResponse, useRouteError, useRouteLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import { ErrorCard } from "~/components/ErrorCard/ErrorCard";
 import type { CurrencyType } from "~/config/currency";
 import { useSubscriptions } from "~/features/subscription/hooks/useSubscriptions";
 import { MonthlyTotalCard } from "~/features/subscription/MonthlyTotalCard";
 import { CalculateMonthlyTotal } from "~/types";
-
-export const loader: LoaderFunction = async () => {
-  const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
-  const jsonData = await response.json();
-  return data({ exchangeRate: jsonData.rates.JPY });
-};
+import { loader as layoutLoader } from "./_layout";
 
 export default function Index() {
   const { subscriptions } = useSubscriptions();
   const [selectedCurrency] = useState<CurrencyType>('JPY');
-  const { exchangeRate } = useLoaderData<typeof loader>();
+  const { exchangeRate } = useRouteLoaderData<typeof layoutLoader>("routes/_layout");
 
   const calculateMonthlyTotals = (): CalculateMonthlyTotal[] => {
     const months = Array.from({ length: 12 }, (_, i) => {
