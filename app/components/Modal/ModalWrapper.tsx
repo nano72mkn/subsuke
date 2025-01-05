@@ -21,7 +21,7 @@ export const ModalWrapper: FC<Props> = ({ children, open, onOpenChange }) => {
   }
 
   return (
-    <Drawer open={open} onOpenChange={onOpenChange}>
+    <Drawer repositionInputs={false} open={open} onOpenChange={onOpenChange}>
       {children}
     </Drawer>
   );
